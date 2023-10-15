@@ -1,6 +1,6 @@
 import { promises as fs, readFile } from "fs"
 
-class ProductManager {
+export default class ProductManager {
     constructor() {
         this.path = "./products.txt";
         this.products = []
@@ -59,11 +59,18 @@ class ProductManager {
     }
 }
 
-const products = new ProductManager
+//const products = new ProductManager
 
-//products.addProduct("title2", "description2", 2500, "img2", "002", 15)
-//products.addProduct("title1", "description1", 2000, "img1", "001", 10)
+//products.addProduct("title1", "description1", 2500, "img1", "001", 4)
+//products.addProduct("title2", "description2", 2000, "img2", "002", 10)
 //products.addProduct("title3", "description3", 3000, "img3", "003", 5)
+//products.addProduct("title4", "description4", 3000, "img4", "004", 8)
+//products.addProduct("title5", "description5", 3000, "img5", "005", 2)
+//products.addProduct("title6", "description6", 3000, "img6", "006", 5)
+//products.addProduct("title7", "description7", 3000, "img7", "007", 6)
+//products.addProduct("title8", "description8", 3000, "img8", "008", 4)
+//products.addProduct("title9", "description9", 3000, "img9", "009", 5)
+//products.addProduct("title10", "description10", 3000, "img10", "0010", 9)
 
 //products.getProducts()
 
@@ -71,12 +78,12 @@ const products = new ProductManager
 
 //products.deleteProductById(2)
 
-products.updateProduct({
-    title: 'title3',
-    description: 'description3',
-    price: 4500,
-    thumbnail: 'img3',
-    code: '003',
-    stock: 5,
-    id: 3
-})
+//products.updateProduct({
+    //title: 'title3',
+    //description: 'description3',
+    //: 4500,
+    //thumbnail: 'img3',
+    //code: '003',
+    //stock: 5,
+    //id: 3
+//})
