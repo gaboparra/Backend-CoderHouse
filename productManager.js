@@ -32,15 +32,15 @@ export default class ProductManager {
 
     getProducts = async () => {
         let response2 = await this.readProducts()
-        return console.log(response2)
+        return response2
     }
 
     getProductById = async (id) => {
         let response3 = await this.readProducts()
         if (!response3.find(product => product.id === id)) {
-            console.log("Not found");
+            return "Not found"
         } else {
-            console.log(response3.find(product => product.id === id));
+            return response3.find(product => product.id === id)
         }
     }
 
@@ -48,7 +48,7 @@ export default class ProductManager {
         let response3 = await this.readProducts();
         let productFilter = response3.filter(products => products.id != id)
         await fs.writeFile(this.path, JSON.stringify(productFilter));
-        console.log("Removed product");
+       return "Removed product"
     };
 
     updateProduct = async ({ id, ...product }) => {

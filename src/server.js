@@ -16,8 +16,8 @@ app.get("/products", async (req, res) => {
 
 app.get("/products/:id", async (req, res) => {
     let id = parseInt(req.params.id)
-    let allProducts = await readProducts
-    let productById = allProducts.find(product => product.id === id)
+    let productById = await product.getProductById(id)
+    if(!productById) return res.send("No existe el producto")
     res.send(productById)
 })
 
