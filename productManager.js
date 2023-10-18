@@ -1,6 +1,7 @@
 import { promises as fs, readFile } from "fs"
 
 export default class ProductManager {
+
     constructor() {
         this.path = "./products.txt";
         this.products = []
@@ -48,7 +49,7 @@ export default class ProductManager {
         let response3 = await this.readProducts();
         let productFilter = response3.filter(products => products.id != id)
         await fs.writeFile(this.path, JSON.stringify(productFilter));
-       return "Removed product"
+        return "Removed product"
     };
 
     updateProduct = async ({ id, ...product }) => {
@@ -79,11 +80,11 @@ export default class ProductManager {
 //products.deleteProductById(2)
 
 //products.updateProduct({
-    //title: 'title3',
-    //description: 'description3',
-    //: 4500,
-    //thumbnail: 'img3',
-    //code: '003',
-    //stock: 5,
-    //id: 3
+//title: 'title3',
+//description: 'description3',
+//: 4500,
+//thumbnail: 'img3',
+//code: '003',
+//stock: 5,
+//id: 3
 //})

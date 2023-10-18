@@ -17,7 +17,7 @@ app.get("/products", async (req, res) => {
 app.get("/products/:id", async (req, res) => {
     let id = parseInt(req.params.id)
     let productById = await product.getProductById(id)
-    if(!productById) return res.send("No existe el producto")
+    if (!productById) return res.send("No existe el producto")
     res.send(productById)
 })
 

@@ -31,8 +31,7 @@ class ProductManager {
         } else {
             console.log(this.products.find((product) => product.id === id));
         }
-    }
-}
+    }}
 
 const products = new ProductManager();
 
