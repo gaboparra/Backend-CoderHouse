@@ -1,4 +1,4 @@
-import express from "express"
+/*import express from "express"
 import ProductManager from "../productManager.js"
 
 const app = express();
@@ -24,4 +24,4 @@ app.get("/products/:id", async (req, res) => {
 const PORT = 8080
 const server = app.listen(PORT, () => console.log(`Local Host ${PORT}`))
 
-//http://localhost:8080/
+//http://localhost:8080/*/

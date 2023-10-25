@@ -1,4 +1,4 @@
-class ProductManager {
+/*class ProductManager {
     constructor() {
         this.products = []
     }
@@ -40,5 +40,5 @@ products.addProduct('title2', 'description2', 2500, 'img2', '002', 15)
 
 console.log(products.getProduct());
 
-(products.getProductById(1));
+(products.getProductById(1));*/
 
