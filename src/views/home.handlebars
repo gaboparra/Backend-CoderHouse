@@ -1,0 +1,18 @@
+<div>
+  <h1 class="">Lista de productos</h1>
+
+  <section>
+    {{#each products}}
+      <a href="#">
+        <img class="" src="{{this.thumbnail}}" alt={{this.title}} />
+      </a>
+      <h3>{{this.title}}</h3>
+      <p>{{this.description}}</p>
+      <p>price: {{this.price}}</p>
+      <p>stock: {{this.stock}}</p>
+      <button id="{{id}}">Add to Cart</button>
+      <button id="{{id}}">Delete</button>
+    {{/each}}
+  </section>
+
+</div>
