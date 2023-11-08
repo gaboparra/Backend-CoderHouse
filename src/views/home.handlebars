@@ -1,18 +1,67 @@
+{{! Navbar }}
+
 <div>
-  <h1 class="">Lista de productos</h1>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Brand</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Mangas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Comics</a>
+          </li>
+        </ul>
+        <form class="d-flex" role="search">
+          <input
+            class="form-control me-2"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+          />
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+</div>
 
-  <section>
+{{! Productos }}
+
+<div class="container py-4">
+  <h3>LISTA DE PRODUCTOS:</h3>
+</div>
+
+<div class="container my-4">
+  <div class="row">
     {{#each products}}
-      <a href="#">
-        <img class="" src="{{this.thumbnail}}" alt={{this.title}} />
-      </a>
-      <h3>{{this.title}}</h3>
-      <p>{{this.description}}</p>
-      <p>price: {{this.price}}</p>
-      <p>stock: {{this.stock}}</p>
-      <button id="{{id}}">Add to Cart</button>
-      <button id="{{id}}">Delete</button>
+      <div class="col-md-3 mb-5">
+        <div class="card" style="width: 18rem;">
+          <img src="" class="card-img-top" alt="{{title}}" />
+          <div class="card-body">
+            <h5 class="card-title">{{title}}</h5>
+            <p class="card-description">{{description}}</p>
+            <p class="card-price">Precio: {{price}}</p>
+            <p class="card-stock">Stock: {{stock}}</p>
+            <button type="button" class="btn btn-primary">Add to cart</button>
+          </div>
+        </div>
+      </div>
     {{/each}}
-  </section>
-
+  </div>
 </div>

@@ -16,8 +16,8 @@ app.set("view engine", "handlebars");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 app.use("/", express.static(__dirname + "/public"));
+
 app.use("/products", ProductRouter);
 app.use("/carts", CartRouter);
 app.use("/home", ViewsRouter);
@@ -26,13 +26,17 @@ const server = app.listen(PORT, () => console.log(`Local Host ${PORT}`));
 const socketServer = new Server(server);
 
 socketServer.on("connection", async (socket) => {
-  let manager = new ProductManager();
+  let manager = new ProductManager("./src/files/products.json");
   let products = await manager.getProducts();
+  
   socket.emit("products", products);
 
-  //socket.on()
+  socket.on("addProduct", async (product) => {
+    await manager.addProducts(product);
+  });
+  socket.on("deleteProduct", async (id) => {
+    await manager.deleteProducts(id);
+  });
 
-  //socket.on()
-
-  console.log("Nuevo cliente conectado");
+  //console.log("Nuevo cliente conectado");
 });

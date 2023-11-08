@@ -2,8 +2,8 @@ import { promises as fs } from "fs";
 import { nanoid } from "nanoid";
 
 class ProductManager {
-  constructor() {
-    this.path = "./src/files/products.json";
+  constructor(path) {
+    this.path = path;
   }
 
   readProducts = async () => {
@@ -25,7 +25,13 @@ class ProductManager {
 
   addProducts = async (product) => {
     try {
-      if (!product || !product.title || !product.price) {
+      if (
+        !product ||
+        !product.title ||
+        !product.description ||
+        !product.price ||
+        !product.stock
+      ) {
         throw new Error(
           "Los campos 'title' y 'price' son obligatorios para agregar un producto"
         );

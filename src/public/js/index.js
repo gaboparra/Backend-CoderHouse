@@ -1,23 +1,46 @@
 const socket = io();
 
 socket.on("products", (products) => {
-  let table = document.getElementById("products");
+  let productsList = document.getElementById("productList");
 
-  table.innerHTML = "";
+  productsList.innerHTML = "";
   products.forEach((product) => {
-    table.innerHTML += `<tr>
-        <td>${product.id}</td>
-        <td>${product.title}</td>
-        <td>${product.description}</td>
-        <td>${product.price}</td>
-        <td>${product.stock}</td>
-    </tr>`;
+    productsList.innerHTML += `
+    <div class="col-md-3 mb-5">
+    <div class="card" style="width: 18rem;">
+      <img src="" class="card-img-top" alt="${product.title}"/>
+      <div class="card-body">
+        <h5 class="card-title">${product.title}</h5>
+        <p class="card-description">${product.description}</p>
+        <p class="card-price">Precio: ${product.price}</p>
+        <p class="card-stock">Stock: ${product.stock}</p>
+        <button type="button" class="btn btn-danger" onclick="deleteProduct('${product.id}')">Delete</button>
+      </div>
+    </div>
+  </div>`;
   });
 });
 
-//let inputAdd = document.getElementById("")
-//let inputDelete = document.getElementById("")
+let addProduct = document.getElementById("submit");
+addProduct.addEventListener("click", (e) => {
+  e.preventDefault();
+  const title = document.getElementById("title").value;
+  const description = document.getElementById("description").value;
+  const price = document.getElementById("price").value;
+  const thumbnail = document.getElementById("thumbnailInput").value;
+  const stock = document.getElementById("stock").value;
 
-//socket.emit("addProducts", )
+  const product = {
+    title,
+    description,
+    price,
+    thumbnail,
+    stock,
+  };
 
-//socket.emit("deleteProducts", )
+  socket.emit("addProduct", product);
+});
+
+function deleteProduct(id) {
+  socket.emit("deleteProduct", id);
+}

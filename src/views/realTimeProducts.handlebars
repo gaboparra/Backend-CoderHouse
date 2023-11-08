@@ -1,21 +1,94 @@
+{{! Navbar }}
+
 <div>
-  <h1>Lista de productos en tiempo real</h1>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Brand</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Mangas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Comics</a>
+          </li>
 
-  <table>
-    <thead>
-      <tr>
-        <th class="th">ID</th>
-        <th>TITLE</th>
-        <th>DESCRIPTION</th>
-        <th>PRICE</th>
-        <th>STOCK</th>
-      </tr>
-    </thead>
-
-    <tbody id="products">
-
-    </tbody>
-  </table>
+        </ul>
+        <form class="d-flex" role="search">
+          <input
+            class="form-control me-2"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+          />
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>
 </div>
 
+{{! Productos }}
+
+<div class="container py-4">
+  <h3>PRODUCTOS DESDE WS:</h3>
+</div>
+
+<div class="container my-4">
+  <div class="row" id="productList">
+    {{! Product List }}
+  </div>
+</div>
+
+{{! Formulario }}
+
+<form class="container my-4" id="form">
+
+  <div class="container py-4">
+    <h3>ADD PRODUCT:</h3>
+  </div>
+
+  <div>
+    <label for="title">Nombre del producto</label><br />
+    <input type="text" name="title" id="title" />
+  </div>
+
+  <div>
+    <label for="description">Descripción</label><br />
+    <input type="text" name="description" id="description" />
+  </div>
+
+  <div>
+    <label for="price">Precio</label><br />
+    <input type="text" name="price" id="price" />
+  </div>
+
+  <div>
+    <label>Imagen</label><br />
+    <input name="thumbnail" id="thumbnailInput" type="file" />
+  </div>
+
+  <div>
+    <label for="stock">Stock</label><br />
+    <input type="text" name="stock" id="stock" />
+  </div><br />
+
+  <button type="submit" class="btn btn-primary" id="submit">Add product</button>
+</form>
+
+<script src="/socket.io/socket.io.js"></script>
 <script src="/js/index.js"></script>
