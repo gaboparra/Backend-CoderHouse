@@ -2,7 +2,7 @@ import { promises as fs } from "fs";
 import { nanoid } from "nanoid";
 import ProductManager from "./ProductManager.js";
 
-const allProducts = new ProductManager("./src/files/products.json");
+const allProducts = new ProductManager("./src/dao/files/products.json");
 
 class CartManager {
   constructor(path) {

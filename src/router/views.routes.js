@@ -1,8 +1,8 @@
 import { Router } from "express";
-import ProductManager from "../managers/ProductManager.js";
+import ProductManager from "../dao/file/managers/ProductManager.js";
 
 const ViewsRouter = Router();
-const product = new ProductManager("./src/files/products.json");
+const product = new ProductManager("./src/dao/files/products.json");
 
 ViewsRouter.get("/", async (req, res) => {
   try {

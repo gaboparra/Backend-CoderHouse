@@ -1,14 +1,12 @@
 import mongoose from "mongoose";
 
-const productCollection = "products";
-
 const productSchema = new mongoose.Schema({
   title: String,
   description: String,
   price: Number,
-  stock: Number,
+  inCart: { type: Boolean, default: false },
 });
 
-const productModel = mongoose.model(productCollection, productSchema);
+const productModel = mongoose.model("Product", productSchema);
 
 export default productModel;
