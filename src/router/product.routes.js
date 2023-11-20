@@ -7,7 +7,7 @@ const ProductRouter = Router();
 
 ProductRouter.get("/", async (req, res) => {
   try {
-    const products = await ProductModel.find();
+    const products = await ProductModel.find().lean().exec();
     res.json({ status: "success", payload: products });
   } catch (error) {
     console.error("Error in GET /", error);
@@ -46,7 +46,7 @@ ProductRouter.delete("/:pid", async (req, res) => {
     const productId = req.params.pid;
     const product = await ProductModel.findByIdAndDelete(productId);
     if (product) {
-      res.json({ status: "success", payload: product });
+      res.json({ status: "Removed product" });
     } else {
       res.status(404).json({ status: "error", message: "Product not found" });
     }
@@ -65,7 +65,7 @@ ProductRouter.put("/:pid", async (req, res) => {
       updateProduct
     );
     if (product) {
-      res.json({ status: "success", payload: product });
+      res.json({ status: "Updated product" });
     } else {
       res.status(404).json({ status: "error", message: "Product not found" });
     }

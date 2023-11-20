@@ -7,7 +7,6 @@ import CartRouter from "./router/cart.routes.js";
 import ViewsRouter from "./router/views.routes.js";
 import ProductManager from "./dao/file/managers/ProductManager.js";
 import mongoose from "mongoose";
-// import productModel from "./dao/mongo/models/products.model.js";
 
 const app = express();
 const PORT = 8080;
