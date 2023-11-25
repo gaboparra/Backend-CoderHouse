@@ -1,0 +1,15 @@
+<div class="container my-4">
+  <h2>Detalles del Carrito</h2>
+  {{#if cart}}
+    <ul>
+      {{#each cart.products}}
+        <li>
+          <h4>{{this.product.title}}</h4>
+          <p>Cantidad: {{this.amount}}</p>
+        </li>
+      {{/each}}
+    </ul>
+  {{else}}
+    <p>Carrito no encontrado</p>
+  {{/if}}
+</div>

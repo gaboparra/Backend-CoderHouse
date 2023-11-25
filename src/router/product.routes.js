@@ -7,7 +7,19 @@ const ProductRouter = Router();
 
 ProductRouter.get("/", async (req, res) => {
   try {
-    const products = await ProductModel.find().lean().exec();
+    const limit = parseInt(req.query.limit) || 10;
+    const page = parseInt(req.query.page) || 1;
+    const sort = req.query.sort || {};
+    const query = req.query.query || {};
+
+    const products = await ProductModel.paginate(query, {
+      page,
+      limit,
+      sort,
+      lean: true,
+    });
+    // const products = await ProductModel.find().lean().exec();
+
     res.json({ status: "success", payload: products });
   } catch (error) {
     console.error("Error in GET /", error);

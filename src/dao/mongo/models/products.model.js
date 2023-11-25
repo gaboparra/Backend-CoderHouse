@@ -1,13 +1,14 @@
 import mongoose from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 const productSchema = new mongoose.Schema({
-  title: String,
+  title: { type: String, index: true },
   description: String,
   price: Number,
   stock: Number,
-  inCart: { type: Boolean, default: false },
 });
+productSchema.plugin(mongoosePaginate);
 
-const productModel = mongoose.model("Product", productSchema);
+const productModel = mongoose.model("products", productSchema);
 
 export default productModel;
