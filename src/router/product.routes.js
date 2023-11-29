@@ -18,7 +18,6 @@ ProductRouter.get("/", async (req, res) => {
       sort,
       lean: true,
     });
-    // const products = await ProductModel.find().lean().exec();
 
     res.json({ status: "success", payload: products });
   } catch (error) {

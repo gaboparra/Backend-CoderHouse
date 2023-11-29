@@ -1,42 +1,48 @@
 import express from "express";
-import __dirname from "./utils.js";
 import handlebars from "express-handlebars";
+import mongoose from "mongoose";
 import { Server } from "socket.io";
+
+import __dirname from "./utils.js";
 import ProductRouter from "./router/product.routes.js";
 import CartRouter from "./router/cart.routes.js";
 import ViewsRouter from "./router/views.routes.js";
 import ProductManager from "./dao/file/managers/ProductManager.js";
-import mongoose from "mongoose";
 
 const app = express();
 const PORT = 8080;
 
+// Configuración Handlebars
 app.engine("handlebars", handlebars.engine());
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 
+// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/", express.static(__dirname + "/public"));
 
+// Rutas
 app.use("/api/products", ProductRouter);
 app.use("/api/carts", CartRouter);
 app.use("/home", ViewsRouter);
 
-// Mongo DB //
+// MongoDB
 const url =
   "mongodb+srv://Gabo:yomZ9Hh3CmMxegpr@clustergabo.o8l1pm6.mongodb.net/";
 mongoose
   .connect(url, { dbName: "ecommerce" })
   .then(() => {
-    console.log("BD connected.");
+    console.log("Connected to the database.");
   })
-  .catch((e) => {
-    console.log("Error connecting to DB.");
+  .catch((error) => {
+    console.log("Error connecting to the database:", error.message);
   });
 
-// WebSocket //
-const server = app.listen(PORT, () => console.log(`Local Host ${PORT}`));
+// WebSocket
+const server = app.listen(PORT, () =>
+  console.log(`Server is running on port ${PORT}`)
+);
 const socketServer = new Server(server);
 
 socketServer.on("connection", async (socket) => {

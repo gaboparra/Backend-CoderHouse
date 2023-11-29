@@ -1,7 +1,6 @@
 import { Router } from "express";
 // import ProductManager from "../dao/file/managers/ProductManager.js";
 import ProductModel from "../dao/mongo/models/products.model.js";
-import CartModel from "../dao/mongo/models/carts.model.js";
 
 const ViewsRouter = Router();
 // const product = new ProductManager("./src/dao/files/products.json");
@@ -26,7 +25,8 @@ ViewsRouter.get("/", async (req, res) => {
       products,
     });
   } catch (error) {
-    return res.status(500).send("Error al obtener productos" + error);
+    console.error("Error getting products:", error);
+    res.status(500).render("error", { message: "Error getting products" });
   }
 });
 
@@ -37,7 +37,8 @@ ViewsRouter.get("/realTimeProducts", async (req, res) => {
       style: "styles.css",
     });
   } catch (error) {
-    return res.status(500).send("Error al obtener productos" + error);
+    console.error("Error al renderizar la vista de productos en tiempo real", error);
+    res.status(500).render("error", { message: "Error al obtener productos en tiempo real" });
   }
 });
 
@@ -49,7 +50,7 @@ ViewsRouter.get("/carts/:cid", async (req, res) => {
     });
   } catch (error) {
     console.error("Error al renderizar la vista de detalles del carrito", error);
-    res.status(500).send("Error interno del servidor");
+    res.status(500).render("error", { message: "Error al obtener detalles del carrito" });
   }
 });
 

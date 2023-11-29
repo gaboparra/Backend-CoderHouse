@@ -1,7 +1,22 @@
 body {
-  background-color: grey;
+  background-color: #353535;
 }
-
-h3 {
+h2 {
   color: white;
+}
+.line {
+  width: 25%;
+  height: 2px;
+  background-color: #ffffff;
+  display: inline-block;
+  vertical-align: middle;
+}
+.card-title {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+.card-price {
+  font-size: 1.2em;
+  font-family: "Arial", sans-serif;
+  color: #333;
 }

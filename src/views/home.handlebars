@@ -31,44 +31,74 @@
 
 {{! Productos }}
 
-<div class="container py-4">
-  <h3>LISTA DE PRODUCTOS:</h3>
-</div>
-
 <div class="container my-4">
   <div class="row">
-    {{#each products.docs}}
-    <div class="col-md-3 mb-5">
-      <div class="card" style="width: 18rem;">
-        {{!-- <img src="" class="card-img-top" alt="{{this.title}}" /> --}}
-        <div class="card-body">
-          <h5 class="card-title">{{this.title}}</h5>
-          <p class="card-description">{{this.description}}</p>
-          <p class="card-price">Precio: {{this.price}}</p>
-          <p class="card-stock">Stock: {{this.stock}}</p>
-          <button class="btn btn-primary" onclick="addToCart('{{this._id}}')">Agregar al carrito</button>
+    <div class="col-12 text-center">
+      <div class="line mx-auto mb-3"></div>
+      <h2 class="d-inline-block px-3">Nuestros Productos</h2>
+      <div class="line mx-auto mb-3"></div>
+    </div>
+
+    {{!-- Card --}}
+
+    <div class="container my-4">
+      <div class="row">
+        {{#each products.docs}}
+        <div class="col-md-2 mb-4">
+          <div class="card h-100">
+            <img src="{{this.imageUrl}}" class="card-img-top" alt="{{this.title}}">
+            <div class="card-body">
+              <h5 class="card-title">{{this.title}}</h5>
+              <p class="card-price">{{this.price}} $</p>
+              <button class="btn btn-primary btn-block" onclick="addToCart('{{this._id}}')">Agregar al carrito</button>
+            </div>
+          </div>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+
+    {{!-- Pagination Buttons --}}
+    <div class="container my-4">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <nav aria-label="Page navigation">
+            <ul class="pagination">
+              {{#if products.hasPrevPage}}
+              <li class="page-item">
+                <a class="page-link" href="?page={{products.prevPage}}">Previous</a>
+              </li>
+              {{/if}}
+
+              {{#if products.hasNextPage}}
+              <li class="page-item">
+                <a class="page-link" href="?page={{products.nextPage}}">Next</a>
+              </li>
+              {{/if}}
+            </ul>
+          </nav>
         </div>
       </div>
     </div>
-    {{/each}}
+
+    {{!-- Script --}}
+
+    <script>
+      async function addToCart(productId) {
+        try {
+          const response = await fetch(`/api/carts/${productId}`, {
+            method: 'POST',
+          });
+          if (response.ok) {
+            alert("Producto agregado al carrito correctamente");
+          } else {
+            alert("Error al agregar producto al carrito");
+          }
+        } catch (error) {
+          console.error("Error al agregar producto al carrito:", error);
+          alert("Error al agregar producto al carrito");
+        }
+      }
+    </script>
   </div>
 </div>
-
-<script>
-  async function addToCart(productId) {
-    try {
-      const response = await fetch(`/api/carts/${productId}`, {
-        method: 'POST',
-      });
-
-      if (response.ok) {
-        alert("Producto agregado al carrito correctamente");
-      } else {
-        alert("Error al agregar producto al carrito");
-      }
-    } catch (error) {
-      console.error("Error al agregar producto al carrito:", error);
-      alert("Error al agregar producto al carrito");
-    }
-  }
-</script>
