@@ -1,5 +1,4 @@
 {{! Navbar }}
-
 <div>
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
@@ -30,7 +29,6 @@
 </div>
 
 {{! Productos }}
-
 <div class="container my-4">
   <div class="row">
     <div class="col-12 text-center">
@@ -39,8 +37,7 @@
       <div class="line mx-auto mb-3"></div>
     </div>
 
-    {{!-- Card --}}
-
+    {{! Card }}
     <div class="container my-4">
       <div class="row">
         {{#each products.docs}}
@@ -58,7 +55,7 @@
       </div>
     </div>
 
-    {{!-- Pagination Buttons --}}
+    {{! Pagination Buttons }}
     <div class="container my-4">
       <div class="row">
         <div class="col-md-12 text-center">
@@ -81,8 +78,7 @@
       </div>
     </div>
 
-    {{!-- Script --}}
-
+    {{! Script }}
     <script>
       async function addToCart(productId) {
         try {

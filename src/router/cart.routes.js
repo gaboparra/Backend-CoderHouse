@@ -58,9 +58,9 @@ CartRouter.post("/:pid", async (req, res) => {
   }
 });
 
-CartRouter.delete("/clear-cart", async (req, res) => {
+CartRouter.delete("/:cid", async (req, res) => {
   try {
-    const cart = await CartModel.findOne();
+    const cart = await CartModel.findById(req.params.cid);
     if (!cart) {
       return res.status(404).json({ message: "Cart not found" });
     }

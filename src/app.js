@@ -1,4 +1,6 @@
 import express from "express";
+import session from "express-session";
+import MongoStore from "connect-mongo";
 import handlebars from "express-handlebars";
 import mongoose from "mongoose";
 import { Server } from "socket.io";
@@ -22,16 +24,25 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/", express.static(__dirname + "/public"));
 
+//Session Mongo
+app.use(session({
+  store: MongoStore.create({
+    mongoUrl: "mongodb+srv://Gabo:yomZ9Hh3CmMxegpr@clustergabo.o8l1pm6.mongodb.net/",
+    dbName: "ecommerce"
+  }),
+  secret: 'secret',
+  resave: true,
+  saveUninitialized: true
+}))
+
 // Rutas
 app.use("/api/products", ProductRouter);
 app.use("/api/carts", CartRouter);
 app.use("/home", ViewsRouter);
 
 // MongoDB
-const url =
-  "mongodb+srv://Gabo:yomZ9Hh3CmMxegpr@clustergabo.o8l1pm6.mongodb.net/";
-mongoose
-  .connect(url, { dbName: "ecommerce" })
+const url = "mongodb+srv://Gabo:yomZ9Hh3CmMxegpr@clustergabo.o8l1pm6.mongodb.net/";
+mongoose.connect(url, { dbName: "ecommerce" })
   .then(() => {
     console.log("Connected to the database.");
   })
@@ -39,10 +50,11 @@ mongoose
     console.log("Error connecting to the database:", error.message);
   });
 
-// WebSocket
 const server = app.listen(PORT, () =>
   console.log(`Server is running on port ${PORT}`)
 );
+
+// WebSocket
 const socketServer = new Server(server);
 
 socketServer.on("connection", async (socket) => {

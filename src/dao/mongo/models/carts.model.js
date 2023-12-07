@@ -8,6 +8,8 @@ const cartSchema = new mongoose.Schema({
     },
   ],
 });
+
+// Populate
 cartSchema.pre("findOne", function () {
   this.populate("products.product");
 });

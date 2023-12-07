@@ -19,7 +19,7 @@ ProductRouter.get("/", async (req, res) => {
       lean: true,
     });
 
-    res.json({ status: "success", payload: products });
+    res.json({ status: "success", payload: products});
   } catch (error) {
     console.error("Error in GET /", error);
     res.status(500).json({ status: "error", message: "Internal server error" });
