@@ -9,7 +9,6 @@ const productSchema = new mongoose.Schema({
   imageUrl: { type: String, required: true },
 });
 
-// Plugin de paginación
 productSchema.plugin(mongoosePaginate);
 
 const productModel = mongoose.model("Product", productSchema);

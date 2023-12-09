@@ -9,6 +9,7 @@ import __dirname from "./utils.js";
 import ProductRouter from "./router/product.routes.js";
 import CartRouter from "./router/cart.routes.js";
 import ViewsRouter from "./router/views.routes.js";
+import SessionRouter from "./router/session.routes.js";
 import ProductManager from "./dao/file/managers/ProductManager.js";
 
 const app = express();
@@ -24,21 +25,24 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/", express.static(__dirname + "/public"));
 
-//Session Mongo
-app.use(session({
-  store: MongoStore.create({
-    mongoUrl: "mongodb+srv://Gabo:yomZ9Hh3CmMxegpr@clustergabo.o8l1pm6.mongodb.net/",
-    dbName: "ecommerce"
-  }),
-  secret: 'secret',
-  resave: true,
-  saveUninitialized: true
-}))
+// Configuración Session
+app.use(
+  session({
+    store: MongoStore.create({
+      mongoUrl: "mongodb+srv://Gabo:yomZ9Hh3CmMxegpr@clustergabo.o8l1pm6.mongodb.net/",
+      dbName: "ecommerce",
+    }),
+    secret: "secret",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
 
 // Rutas
+app.use("/home", ViewsRouter);
 app.use("/api/products", ProductRouter);
 app.use("/api/carts", CartRouter);
-app.use("/home", ViewsRouter);
+app.use("/api/session", SessionRouter);
 
 // MongoDB
 const url = "mongodb+srv://Gabo:yomZ9Hh3CmMxegpr@clustergabo.o8l1pm6.mongodb.net/";
