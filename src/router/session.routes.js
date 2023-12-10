@@ -1,36 +1,26 @@
 import { Router } from "express";
-import UserModel from "../dao/mongo/models/user.model.js";
+// import UserModel from "../dao/mongo/models/user.model.js";
+import passport from "passport";
+// import { createHash, isValidPassword } from "../utils.js";
 
 const UserRouter = Router();
 
-UserRouter.post("/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const user = await UserModel.findOne({ email, password });
+UserRouter.post(
+  "/login",
+  passport.authenticate('login', { failureRedirect: '/' }),
+  async (req, res) => {
+    if (!req.user) return res.status(400).send('Invalid credentials')
 
-    if (!user) {
-      return res.status(404).send("User not found");
-    }
+    req.session.user = req.user
+    return res.send('Logged.')
+  });
 
-    req.session.user = user;
-    return res.redirect("/home");
-  } catch (error) {
-    console.error("Error during login:", error);
-    return res.status(500).render("error", { message: "Error during login" });
-  }
-});
-
-UserRouter.post("/register", async (req, res) => {
-  try {
-    const user = req.body;
-    await UserModel.create(user);
-
-    return res.redirect("/");
-  } catch (error) {
-    console.error("Error during user registration:", error);
-    return res.status(500).render("error", { message: "Error during user registration" });
-  }
-});
+UserRouter.post(
+  "/register",
+  passport.authenticate('register', { failureRedirect: '/' }),
+  async (req, res) => {
+    res.send('Registered')
+  });
 
 UserRouter.get("/logout", (req, res) => {
   try {

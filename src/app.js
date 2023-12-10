@@ -4,6 +4,8 @@ import MongoStore from "connect-mongo";
 import handlebars from "express-handlebars";
 import mongoose from "mongoose";
 import { Server } from "socket.io";
+import passport from "passport";
+import initializePassport from "./config/passport.config.js";
 
 import __dirname from "./utils.js";
 import ProductRouter from "./router/product.routes.js";
@@ -37,6 +39,11 @@ app.use(
     saveUninitialized: true,
   })
 );
+
+// Passport
+initializePassport()
+app.use(passport.initialize())
+app.use(passport.session())
 
 // Rutas
 app.use("/home", ViewsRouter);
