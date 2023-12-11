@@ -1,10 +1,10 @@
+/* General */
 body {
   background-color: #353535;
 }
-h2 {
-  color: white;
-}
-h3 {
+h2,
+h3,
+p {
   color: white;
 }
 .line {
@@ -22,4 +22,177 @@ h3 {
   font-size: 1.2em;
   font-family: "Arial", sans-serif;
   color: #333;
+}
+
+/* Estilos Login */
+.login-container {
+  width: 400px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.login-title {
+  color: #007bff;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.login-input {
+  margin-bottom: 10px;
+  padding: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.login-button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px;
+  cursor: pointer;
+  width: 100%;
+  border: none;
+  border-radius: 3px;
+}
+
+.login-button:hover {
+  background-color: #0056b3;
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 10px;
+}
+
+.forgot-password {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.forgot-password a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.forgot-password a:hover {
+  text-decoration: underline;
+  color: #0056b3;
+}
+
+/* Estilos Register */
+.register-container {
+  width: 400px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.register-title {
+  color: #007bff;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.register-form label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.register-form input {
+  padding: 8px;
+  margin-bottom: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.register-button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px;
+  cursor: pointer;
+  border: none;
+  border-radius: 3px;
+}
+
+.register-button:hover {
+  background-color: #0056b3;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* Estilos Profile */
+.profile-container {
+  width: 400px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.profile-title {
+  color: #007bff;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.profile-info {
+  margin-top: 10px;
+}
+
+.profile-info div {
+  margin-bottom: 10px;
+}
+
+.logout-link {
+  display: block;
+  text-align: center;
+  margin-top: 15px;
+  color: #fff;
+  background-color: #007bff;
+  padding: 10px;
+  text-decoration: none;
+  border-radius: 3px;
+}
+
+.logout-link:hover {
+  background-color: #0056b3;
 }

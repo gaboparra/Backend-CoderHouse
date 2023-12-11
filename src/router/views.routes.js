@@ -16,16 +16,18 @@ function auth(req, res, next) {
   res.redirect("/login");
 }
 
-// ViewsRouter.get("/", (req, res) => {
-//   return res.render("home");
-// });
-
 ViewsRouter.get("/login", sessionActive, (req, res) => {
-  return res.render("login", {});
+  return res.render("login", {
+    title: "Ecommerce",
+    style: "styles.css",
+  });
 });
 
 ViewsRouter.get("/register", sessionActive, (req, res) => {
-  return res.render("register", {});
+  return res.render("register", {
+    title: "Ecommerce",
+    style: "styles.css",
+  });
 });
 
 ViewsRouter.get("/profile", auth, (req, res) => {
@@ -35,7 +37,11 @@ ViewsRouter.get("/profile", auth, (req, res) => {
       req.session.destroy();
       return res.redirect("/login");
     }
-    res.render("profile", user);
+    res.render("profile", {
+      title: "Ecommerce",
+      style: "styles.css",
+      user: user,
+    });
   } catch (error) {
     console.error("Error rendering profile:", error);
     res.status(500).render("error", { message: "Error rendering profile" });
@@ -56,10 +62,13 @@ ViewsRouter.get("/", async (req, res) => {
       lean: true,
     });
 
+    const user = req.session.user;
+
     res.render("home", {
-      title: "Handlebars",
+      title: "Ecommerce",
       style: "styles.css",
       products,
+      user,
     });
   } catch (error) {
     console.error("Error getting products:", error);
@@ -75,7 +84,7 @@ ViewsRouter.get("/realTimeProducts", async (req, res) => {
     });
   } catch (error) {
     console.error("Error al renderizar la vista de productos en tiempo real", error);
-    res.status(500).render("error", { message: "Error al obtener productos en tiempo real" });
+    res.status(500).render("error", {message: "Error al obtener productos en tiempo real",});
   }
 });
 

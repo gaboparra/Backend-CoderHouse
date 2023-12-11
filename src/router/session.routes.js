@@ -5,22 +5,27 @@ import passport from "passport";
 
 const UserRouter = Router();
 
-UserRouter.post(
-  "/login",
-  passport.authenticate('login', { failureRedirect: '/' }),
-  async (req, res) => {
-    if (!req.user) return res.status(400).send('Invalid credentials')
+UserRouter.post("/login", passport.authenticate("login"), async (req, res) => {
+  try {
+    if (!req.user) return res.status(400).send("Invalid credentials");
 
-    req.session.user = req.user
-    return res.send('Logged.')
-  });
+    req.session.user = req.user;
+    return res.redirect("/");
+  } catch (error) {
+    console.error("Error during login:", error);
+    return res.status(500).render("error", { message: "Error during login" });
+  }
+});
 
-UserRouter.post(
-  "/register",
-  passport.authenticate('register', { failureRedirect: '/' }),
-  async (req, res) => {
-    res.send('Registered')
-  });
+UserRouter.post("/register", passport.authenticate("register"), async (req, res) => {
+  try {
+    res.send("Registered");
+  } catch (error) {
+    console.error("Error during registration:", error);
+    return res.status(500).render("error", { message: "Error during registration" });
+  }
+}
+);
 
 UserRouter.get("/logout", (req, res) => {
   try {

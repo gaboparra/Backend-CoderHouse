@@ -14,8 +14,11 @@ import ViewsRouter from "./router/views.routes.js";
 import SessionRouter from "./router/session.routes.js";
 import ProductManager from "./dao/file/managers/ProductManager.js";
 
+// Variables
 const app = express();
 const PORT = 8080;
+const mongoURL = "mongodb+srv://Gabo:yomZ9Hh3CmMxegpr@clustergabo.o8l1pm6.mongodb.net/";
+const mongoDBname = "ecommerce";
 
 // Configuración Handlebars
 app.engine("handlebars", handlebars.engine());
@@ -31,8 +34,8 @@ app.use("/", express.static(__dirname + "/public"));
 app.use(
   session({
     store: MongoStore.create({
-      mongoUrl: "mongodb+srv://Gabo:yomZ9Hh3CmMxegpr@clustergabo.o8l1pm6.mongodb.net/",
-      dbName: "ecommerce",
+      mongoUrl: mongoURL,
+      dbName: mongoDBname,
     }),
     secret: "secret",
     resave: true,
@@ -41,19 +44,19 @@ app.use(
 );
 
 // Passport
-initializePassport()
-app.use(passport.initialize())
-app.use(passport.session())
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Rutas
-app.use("/home", ViewsRouter);
+app.use("/", ViewsRouter);
 app.use("/api/products", ProductRouter);
 app.use("/api/carts", CartRouter);
-app.use("/api/session", SessionRouter);
+app.use("/", SessionRouter);
 
 // MongoDB
-const url = "mongodb+srv://Gabo:yomZ9Hh3CmMxegpr@clustergabo.o8l1pm6.mongodb.net/";
-mongoose.connect(url, { dbName: "ecommerce" })
+mongoose
+  .connect(mongoURL, { dbName: mongoDBname })
   .then(() => {
     console.log("Connected to the database.");
   })
