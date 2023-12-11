@@ -12,6 +12,7 @@ import ProductRouter from "./router/product.routes.js";
 import CartRouter from "./router/cart.routes.js";
 import ViewsRouter from "./router/views.routes.js";
 import SessionRouter from "./router/session.routes.js";
+import jwtRouter from "./router/jwt.routes.js";
 import ProductManager from "./dao/file/managers/ProductManager.js";
 
 // Variables
@@ -52,11 +53,11 @@ app.use(passport.session());
 app.use("/", ViewsRouter);
 app.use("/api/products", ProductRouter);
 app.use("/api/carts", CartRouter);
-app.use("/", SessionRouter);
+app.use("/jwt", SessionRouter);
+app.use("/", jwtRouter);
 
 // MongoDB
-mongoose
-  .connect(mongoURL, { dbName: mongoDBname })
+mongoose.connect(mongoURL, { dbName: mongoDBname })
   .then(() => {
     console.log("Connected to the database.");
   })

@@ -24,8 +24,7 @@ UserRouter.post("/register", passport.authenticate("register"), async (req, res)
     console.error("Error during registration:", error);
     return res.status(500).render("error", { message: "Error during registration" });
   }
-}
-);
+});
 
 UserRouter.get("/logout", (req, res) => {
   try {
@@ -41,6 +40,18 @@ UserRouter.get("/logout", (req, res) => {
     console.error("Error during logout:", error);
     return res.status(500).render("error", { message: "Error during logout" });
   }
+});
+
+// Github
+UserRouter.get("/error", (req, res) => res.send("Error"));
+
+UserRouter.get("/github", passport.authenticate("github", { scope: ["user: email"] }), async (req, res) => { });
+
+UserRouter.get("/githubcallback", passport.authenticate("github", { failureRedirect: "/error" }), (req, res) => {
+
+  req.session.user = req.user;
+
+  res.redirect("/");
 });
 
 export default UserRouter;
