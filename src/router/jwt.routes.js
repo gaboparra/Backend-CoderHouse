@@ -7,23 +7,33 @@ const jwtRouter = Router();
 jwtRouter.post("/register", async (req, res) => {
   const user = req.body;
 
-  const result = await UserModel.create(user);
-
-  const access_token = generateToken(result);
-
-  res.send({ status: "success", access_token });
+  try {
+    const result = await UserModel.create(user);
+    const access_token = generateToken(result);
+    res.send({ status: "success", access_token });
+  } catch (error) {
+    console.error("Error when registering:", error);
+    res.status(500).send({ status: "error", error: "Error when registering" });
+  }
 });
 
 jwtRouter.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await UserModel.findOne({ email, password });
-  if (!user)
-    return res.status(400).send({ status: "error", error: "Invalid credentials" });
+  try {
+    const user = await UserModel.findOne({ email, password });
+    if (!user)
+      return res.status(400).send({ status: "error", error: "Invalid credentials" });
 
-  const access_token = generateToken(user);
+    const access_token = generateToken(user);
 
-  res.send({ status: "success", access_token });
+    req.session.user = user;
+
+    res.redirect("/");
+  } catch (error) {
+    console.error("Error when logging in:", error);
+    res.status(500).send({ status: "error", error: "Error when logging in" });
+  }
 });
 
 jwtRouter.post("/private", authToken, (req, res) => {

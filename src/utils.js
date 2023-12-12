@@ -17,7 +17,12 @@ export const createHash = (password) => {
 
 // Validar Hash
 export const isValidPassword = (user, password) => {
-  return bcrypt.compareSync(password, user.password);
+  try {
+    return bcrypt.compareSync(password, user.password);
+  } catch (error) {
+    console.error("Error when validating password:", error);
+    return false;
+  }
 };
 
 // Generar Token

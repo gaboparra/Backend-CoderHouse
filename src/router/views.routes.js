@@ -84,13 +84,14 @@ ViewsRouter.get("/realTimeProducts", async (req, res) => {
     });
   } catch (error) {
     console.error("Error al renderizar la vista de productos en tiempo real", error);
-    res.status(500).render("error", {message: "Error al obtener productos en tiempo real",});
+    res.status(500).render("error", { message: "Error al obtener productos en tiempo real", });
   }
 });
 
 ViewsRouter.get("/carts/:cid", async (req, res) => {
   try {
     const cart = await CartModel.findById(req.params.cid).lean().exec();
+    console.log("Cart data:", cart);
     res.render("carts", {
       title: "Detalles del Carrito",
       style: "styles.css",

@@ -51,10 +51,10 @@ app.use(passport.session());
 
 // Rutas
 app.use("/", ViewsRouter);
+app.use("/", SessionRouter);
+app.use("/", jwtRouter);
 app.use("/api/products", ProductRouter);
 app.use("/api/carts", CartRouter);
-app.use("/jwt", SessionRouter);
-app.use("/", jwtRouter);
 
 // MongoDB
 mongoose.connect(mongoURL, { dbName: mongoDBname })

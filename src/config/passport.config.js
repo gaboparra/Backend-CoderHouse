@@ -16,8 +16,7 @@ const initializePassport = () => {
             try {
                 const user = await UserModel.findOne({ email: username });
                 if (user) {
-                    console.log("User already exists");
-                    return done(null, false);
+                    return done(null, false, { message: "User already exists" });
                 }
 
                 const newUser = {
@@ -30,11 +29,11 @@ const initializePassport = () => {
                 const result = await UserModel.create(newUser);
                 return done(null, result);
             } catch (error) {
-                return done("error when registering " + error);
+                console.error("Error when registering:", error);
+                return done("Error when registering", false, { message: "Error when registering" });
             }
         }
-    )
-    );
+    ));
 
     passport.use("login", new LocalStrategy({
         usernameField: "email",
@@ -65,7 +64,6 @@ const initializePassport = () => {
         callbackURL: "http://localhost:8080/githubcallback",
     },
         async (accessToken, refreshToken, profile, done) => {
-            console.log(profile);
             try {
                 const user = await UserModel.findOne({ email: profile._json.email });
                 if (user) {
@@ -73,11 +71,10 @@ const initializePassport = () => {
                     return done(null, user);
                 }
                 const newUser = await UserModel.create({
-                    first_name: profile._json.name || "",
-                    last_name: profile._json.last_name || "",
+                    first_name: profile._json.name,
+                    last_name: profile._json.last_name || null,
                     age: profile._json.age || null,
-                    email: profile._json.email || "",
-                    password: profile._json.password || null,
+                    email: profile._json.email,
                 });
 
                 return done(null, newUser);
