@@ -35,10 +35,10 @@ export const generateToken = (user) => {
 // Autenticación Token
 export const authToken = (req, res, next) => {
   const token = req.headers.auth;
-  if (!token) return res.status(401).send({ error: "Not authorized." });
+  if (!token) return res.status(401).json({ error: "Not authorized." });
 
   jwt.verify(token, PRIVATE_KEY, (error, credentials) => {
-    if (error) return res.status(403).send({ error: "Not authorized." });
+    if (error) return res.status(403).json({ error: "Not authorized." });
 
     req.user = credentials.user;
     next();

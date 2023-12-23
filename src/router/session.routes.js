@@ -9,7 +9,16 @@ UserRouter.post("/login", passport.authenticate("login"), async (req, res) => {
   try {
     if (!req.user) return res.status(400).send("Invalid credentials");
 
-    req.session.user = req.user;
+    req.session.user = {
+      _id: req.user._id,
+      first_name: req.user.first_name,
+      last_name: req.user.last_name,
+      email: req.user.email,
+      age: req.user.age,
+      cart: req.user.cart,
+      role: req.user.role,
+    };
+
     return res.redirect("/");
   } catch (error) {
     console.error("Error during login:", error);

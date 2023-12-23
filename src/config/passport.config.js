@@ -25,6 +25,8 @@ const initializePassport = () => {
                     age,
                     email,
                     password: createHash(password),
+                    cart: null,
+                    role: "user",
                 };
                 const result = await UserModel.create(newUser);
                 return done(null, result);
@@ -67,14 +69,15 @@ const initializePassport = () => {
             try {
                 const user = await UserModel.findOne({ email: profile._json.email });
                 if (user) {
-                    console.log("It is already registered.");
                     return done(null, user);
                 }
                 const newUser = await UserModel.create({
                     first_name: profile._json.name,
-                    last_name: profile._json.last_name || null,
+                    last_name: profile._json.last_name || 'Github Last Name',
                     age: profile._json.age || null,
                     email: profile._json.email,
+                    cart: null,
+                    role: "user",
                 });
 
                 return done(null, newUser);
