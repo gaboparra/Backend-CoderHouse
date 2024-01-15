@@ -8,7 +8,7 @@ const __dirname = dirname(__filename);
 
 export default __dirname;
 
-export const PRIVATE_KEY = "CoderHouse_Secret";
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
 
 // Crear HASH
 export const createHash = (password) => {

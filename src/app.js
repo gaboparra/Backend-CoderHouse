@@ -21,7 +21,7 @@ import ProductManager from "./dao/file/managers/ProductManager.js";
 config({ path: '.env' })
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT;
 const mongoURL = process.env.MONGO_URL;
 const mongoDBname = process.env.MONGO_DB_NAME;
 

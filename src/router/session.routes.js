@@ -1,7 +1,6 @@
 import { Router } from "express";
 // import UserModel from "../dao/mongo/models/user.model.js";
 import passport from "passport";
-import { PRIVATE_KEY } from "../utils.js";
 import jwt from "jsonwebtoken";
 
 const UserRouter = Router();
@@ -67,7 +66,7 @@ UserRouter.get("/current", (req, res) => {
   try {
     const token = req.cookies.token;
 
-    const payload = jwt.verify(token, PRIVATE_KEY);
+    const payload = jwt.verify(token, process.env.PRIVATE_KEY);
     if (!payload)
       return res.status(401).json({ status: "failed", message: "User not found" });
 

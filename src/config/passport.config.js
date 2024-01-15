@@ -3,7 +3,7 @@ import passportJWT from "passport-jwt";
 import local from "passport-local";
 import GitHubStrategy from "passport-github2";
 import UserModel from "../dao/mongo/models/user.model.js";
-import { PRIVATE_KEY, createHash, generateToken, isValidPassword } from "../utils.js";
+import { createHash, generateToken, isValidPassword } from "../utils.js";
 
 const LocalStrategy = local.Strategy;
 const JWTStrategy = passportJWT.Strategy;
@@ -64,9 +64,9 @@ const initializePassport = () => {
     // Github
     passport.use("github", new GitHubStrategy(
         {
-            clientID: "Iv1.eeeb3b341665af45",
-            clientSecret: "ca5bed6c47823c493d0fce31dbec4dab418b89ec",
-            callbackURL: "http://localhost:8080/githubcallback",
+            clientID: process.env.CLIENT_ID,
+            clientSecret: process.env.CLIENT_SECRET,
+            callbackURL: process.env.GITHUB_CALLBACK,
         },
         async (accessToken, refreshToken, profile, done) => {
             try {
@@ -104,7 +104,7 @@ const initializePassport = () => {
             jwtFromRequest: passportJWT.ExtractJwt.fromExtractors([
                 (req) => req?.cookies?.cookieJWT ?? null,
             ]),
-            secretOrKey: PRIVATE_KEY,
+            secretOrKey: process.env.PRIVATE_KEY,
         },
         (jwt_payload, done) => {
             done(null, jwt_payload);
