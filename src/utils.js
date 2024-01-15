@@ -8,14 +8,14 @@ const __dirname = dirname(__filename);
 
 export default __dirname;
 
-const PRIVATE_KEY = "CoderHouse_Secret";
+export const PRIVATE_KEY = "CoderHouse_Secret";
 
-// Crear Hash
+// Crear HASH
 export const createHash = (password) => {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 };
 
-// Validar Hash
+// Validar HASH
 export const isValidPassword = (user, password) => {
   try {
     return bcrypt.compareSync(password, user.password);
@@ -25,11 +25,9 @@ export const isValidPassword = (user, password) => {
   }
 };
 
-// Generar Token
+// JWT
 export const generateToken = (user) => {
-  const token = jwt.sign({ user }, PRIVATE_KEY, { expiresIn: "24h" });
-
-  return token;
+  return jwt.sign({ user }, PRIVATE_KEY, { expiresIn: "24h" });
 };
 
 // Autenticación Token

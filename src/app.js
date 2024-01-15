@@ -1,3 +1,4 @@
+import { config } from "dotenv";
 import express from "express";
 import session from "express-session";
 import MongoStore from "connect-mongo";
@@ -6,6 +7,7 @@ import mongoose from "mongoose";
 import { Server } from "socket.io";
 import passport from "passport";
 import initializePassport from "./config/passport.config.js";
+import cookieParser from "cookie-parser";
 
 import __dirname from "./utils.js";
 import ProductRouter from "./router/product.routes.js";
@@ -16,10 +18,12 @@ import jwtRouter from "./router/jwt.routes.js";
 import ProductManager from "./dao/file/managers/ProductManager.js";
 
 // Variables
+config({ path: '.env' })
+
 const app = express();
-const PORT = 8080;
-const mongoURL = "mongodb+srv://Gabo:yomZ9Hh3CmMxegpr@clustergabo.o8l1pm6.mongodb.net/";
-const mongoDBname = "ecommerce";
+const PORT = process.env.PORT || 8080;
+const mongoURL = process.env.MONGO_URL;
+const mongoDBname = process.env.MONGO_DB_NAME;
 
 // Configuración Handlebars
 app.engine("handlebars", handlebars.engine());
@@ -43,6 +47,7 @@ app.use(
     saveUninitialized: true,
   })
 );
+app.use(cookieParser())
 
 // Passport
 initializePassport();
