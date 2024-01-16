@@ -1,90 +1,20 @@
 import { Router } from "express";
 // import ProductManager from "../dao/file/managers/ProductManager.js";
-import ProductModel from "../dao/mongo/models/products.model.js";
+// import ProductModel from "../dao/mongo/models/products.model.js";
+import ProductsCtrl from "../controllers/products.controller.js";
 
 const ProductRouter = Router();
 // const product = new ProductManager("./src/files/products.json");
 
-ProductRouter.get("/", async (req, res) => {
-  try {
-    const limit = parseInt(req.query.limit) || 10;
-    const page = parseInt(req.query.page) || 1;
-    const sort = req.query.sort || {};
-    const query = req.query.query || {};
+ProductRouter.get("/", ProductsCtrl.getProducts);
 
-    const products = await ProductModel.paginate(query, {
-      page,
-      limit,
-      sort,
-      lean: true,
-    });
+ProductRouter.get("/:pid", ProductsCtrl.getProduct);
 
-    res.json({ status: "success", payload: products });
-  } catch (error) {
-    console.error("Error in GET /", error);
-    res.status(500).json({ status: "error", message: "Internal server error" });
-  }
-});
+ProductRouter.post("/", ProductsCtrl.createProduct);
 
-ProductRouter.get("/:pid", async (req, res) => {
-  try {
-    const productId = req.params.pid;
-    const product = await ProductModel.findById(productId);
-    if (product) {
-      res.json({ status: "success", payload: product });
-    } else {
-      res.status(404).json({ status: "error", message: "Product not found" });
-    }
-  } catch (error) {
-    console.error(`Error in GET /${req.params.pid}`, error);
-    res.status(500).json({ status: "error", message: "Internal server error" });
-  }
-});
+ProductRouter.delete("/:pid", ProductsCtrl.deleteProduct);
 
-ProductRouter.post("/", async (req, res) => {
-  try {
-    const data = req.body;
-    const result = await ProductModel.create(data);
-    res.json({ status: "success", payload: result });
-  } catch (error) {
-    console.error("Error in POST /", error);
-    res.status(500).json({ status: "error", message: "Internal server error" });
-  }
-});
-
-ProductRouter.delete("/:pid", async (req, res) => {
-  try {
-    const productId = req.params.pid;
-    const product = await ProductModel.findByIdAndDelete(productId);
-    if (product) {
-      res.json({ status: "Removed product" });
-    } else {
-      res.status(404).json({ status: "error", message: "Product not found" });
-    }
-  } catch (error) {
-    console.error(`Error in DELETE /${req.params.pid}`, error);
-    res.status(500).json({ status: "error", message: "Internal server error" });
-  }
-});
-
-ProductRouter.put("/:pid", async (req, res) => {
-  try {
-    const productId = req.params.pid;
-    const updateProduct = req.body;
-    const product = await ProductModel.findByIdAndUpdate(
-      productId,
-      updateProduct
-    );
-    if (product) {
-      res.json({ status: "Updated product" });
-    } else {
-      res.status(404).json({ status: "error", message: "Product not found" });
-    }
-  } catch (error) {
-    console.error(`Error in PUT /${req.params.pid}`, error);
-    res.status(500).json({ status: "error", message: "Internal server error" });
-  }
-});
+ProductRouter.put("/:pid", ProductsCtrl.updateProduct);
 
 // ProductRouter.get("/", async (req, res) => {
 //   try {

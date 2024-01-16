@@ -18,7 +18,7 @@ import jwtRouter from "./router/jwt.routes.js";
 import ProductManager from "./dao/file/managers/ProductManager.js";
 
 // Variables
-config({ path: '.env' })
+config({ path: ".env" });
 
 const app = express();
 const PORT = process.env.PORT;
@@ -47,7 +47,7 @@ app.use(
     saveUninitialized: true,
   })
 );
-app.use(cookieParser())
+app.use(cookieParser());
 
 // Passport
 initializePassport();
@@ -62,7 +62,8 @@ app.use("/api/products", ProductRouter);
 app.use("/api/carts", CartRouter);
 
 // MongoDB
-mongoose.connect(mongoURL, { dbName: mongoDBname })
+mongoose
+  .connect(mongoURL, { dbName: mongoDBname })
   .then(() => {
     console.log("Connected to the database.");
   })
