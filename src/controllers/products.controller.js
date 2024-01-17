@@ -23,7 +23,7 @@ ProductsCtrl.getProducts = async (req, res) => {
   }
 };
 
-ProductsCtrl.getProduct = async (req, res) => {
+ProductsCtrl.getProductById = async (req, res) => {
   try {
     const productId = req.params.pid;
     const product = await ProductModel.findById(productId);

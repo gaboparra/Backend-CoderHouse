@@ -1,6 +1,5 @@
 import { Router } from "express";
 // import ProductManager from "../dao/file/managers/ProductManager.js";
-// import ProductModel from "../dao/mongo/models/products.model.js";
 import ProductsCtrl from "../controllers/products.controller.js";
 
 const ProductRouter = Router();
@@ -8,7 +7,7 @@ const ProductRouter = Router();
 
 ProductRouter.get("/", ProductsCtrl.getProducts);
 
-ProductRouter.get("/:pid", ProductsCtrl.getProduct);
+ProductRouter.get("/:pid", ProductsCtrl.getProductById);
 
 ProductRouter.post("/", ProductsCtrl.createProduct);
 
