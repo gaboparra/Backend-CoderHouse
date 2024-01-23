@@ -39,7 +39,7 @@ ViewsCtrl.realTimeProducts = async (req, res) => {
     });
   } catch (error) {
     console.error("Error rendering real time products view", error);
-    res.status(500).render("error", {message: "Error getting products in real time"});
+    res.status(500).render("error", { message: "Error getting products in real time" });
   }
 };
 

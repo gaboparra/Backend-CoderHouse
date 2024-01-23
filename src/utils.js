@@ -1,3 +1,4 @@
+import config from "./config/config.js";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import bcrypt from "bcrypt";
@@ -7,8 +8,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 export default __dirname;
-
-const PRIVATE_KEY = process.env.PRIVATE_KEY;
 
 // Crear HASH
 export const createHash = (password) => {
@@ -27,15 +26,15 @@ export const isValidPassword = (user, password) => {
 
 // JWT
 export const generateToken = (user) => {
-  return jwt.sign({ user }, PRIVATE_KEY, { expiresIn: "24h" });
+  return jwt.sign({ user }, config.PRIVATE_KEY, { expiresIn: "24h" });
 };
 
 // Autenticación Token
 export const authToken = (req, res, next) => {
-  const token = req.headers.auth;
+  const token = req.headers.authorization;
   if (!token) return res.status(401).json({ error: "Not authorized." });
 
-  jwt.verify(token, PRIVATE_KEY, (error, credentials) => {
+  jwt.verify(token, config.PRIVATE_KEY, (error, credentials) => {
     if (error) return res.status(403).json({ error: "Not authorized." });
 
     req.user = credentials.user;

@@ -1,9 +1,7 @@
 import { Router } from "express";
-// import ProductManager from "../dao/file/managers/ProductManager.js";
 import ViewsCtrl from "../controllers/views.controller.js";
 
 const ViewsRouter = Router();
-// const product = new ProductManager("./src/dao/files/products.json");
 
 function sessionActive(req, res, next) {
   if (req.session?.user) return res.redirect("/profile");

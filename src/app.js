@@ -1,4 +1,3 @@
-import { config } from "dotenv";
 import express from "express";
 import session from "express-session";
 import MongoStore from "connect-mongo";
@@ -8,6 +7,7 @@ import { Server } from "socket.io";
 import passport from "passport";
 import initializePassport from "./config/passport.config.js";
 import cookieParser from "cookie-parser";
+import config from "./config/config.js";
 
 import __dirname from "./utils.js";
 import ProductRouter from "./router/product.routes.js";
@@ -16,14 +16,10 @@ import ViewsRouter from "./router/views.routes.js";
 import SessionRouter from "./router/session.routes.js";
 import jwtRouter from "./router/jwt.routes.js";
 import ProductManager from "./dao/file/managers/ProductManager.js";
+import MailingRouter from "./router/mailing.routes.js";
 
 // Variables
-config({ path: ".env" });
-
 const app = express();
-const PORT = process.env.PORT;
-const mongoURL = process.env.MONGO_URL;
-const mongoDBname = process.env.MONGO_DB_NAME;
 
 // Configuración Handlebars
 app.engine("handlebars", handlebars.engine());
@@ -39,8 +35,8 @@ app.use("/", express.static(__dirname + "/public"));
 app.use(
   session({
     store: MongoStore.create({
-      mongoUrl: mongoURL,
-      dbName: mongoDBname,
+      mongoUrl: config.mongoURL,
+      dbName: config.mongoDBName,
     }),
     secret: "secret",
     resave: true,
@@ -58,12 +54,12 @@ app.use(passport.session());
 app.use("/", ViewsRouter);
 app.use("/", SessionRouter);
 app.use("/", jwtRouter);
+app.use("/", MailingRouter);
 app.use("/api/products", ProductRouter);
 app.use("/api/carts", CartRouter);
 
 // MongoDB
-mongoose
-  .connect(mongoURL, { dbName: mongoDBname })
+mongoose.connect(config.mongoURL, { dbName: config.mongoDBName })
   .then(() => {
     console.log("Connected to the database.");
   })
@@ -71,8 +67,8 @@ mongoose
     console.log("Error connecting to the database:", error.message);
   });
 
-const server = app.listen(PORT, () =>
-  console.log(`Server is running on port ${PORT}`)
+const server = app.listen(process.env.PORT, () =>
+  console.log(`Server is running on port ${process.env.PORT}`)
 );
 
 // WebSocket

@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import config from "../config/config.js";
 
 const SessionCtrl = {};
 
@@ -62,7 +63,7 @@ SessionCtrl.currentSession = (req, res) => {
   try {
     const token = req.cookies.token;
 
-    const payload = jwt.verify(token, process.env.PRIVATE_KEY);
+    const payload = jwt.verify(token, config.PRIVATE_KEY);
     if (!payload)
       return res.status(401).json({ status: "failed", message: "User not found" });
 

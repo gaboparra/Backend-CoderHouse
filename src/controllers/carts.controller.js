@@ -1,4 +1,6 @@
 import CartModel from "../dao/mongo/models/carts.model.js";
+import ProductModel from "../dao/mongo/models/products.model.js";
+import TicketModel from "../dao/mongo/models/ticket.model.js";
 
 const CartsCtrl = {};
 
@@ -111,6 +113,53 @@ CartsCtrl.updateProductInCart = async (req, res) => {
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+CartsCtrl.purchase = async (req, res) => {
+  try {
+    const cart = await CartModel.findById(req.params.cid);
+    if (!cart) {
+      return res.status(404).json({ message: "Cart not found" });
+    }
+
+    let total = 0;
+    const failedProducts = [];
+    const successfulProducts = [];
+    for (let item of cart.products) {
+      const product = await ProductModel.findById(item.product);
+      if (product.stock < item.amount) {
+        failedProducts.push(item);
+      } else {
+        product.stock -= item.amount;
+        await product.save();
+        total += product.price * item.amount;
+        successfulProducts.push(item);
+      }
+    }
+
+    if (failedProducts.length > 0) {
+      cart.products = failedProducts;
+      await cart.save();
+      return res.status(400).json({
+        message: "Some products could not be processed",
+        failedProducts: failedProducts.map((item) => item.product),
+      });
+    }
+
+    const ticket = new TicketModel({
+      purchaser: cart.user,
+      amount: total,
+      purchase_datetime: new Date(),
+    });
+    await ticket.save();
+
+    cart.products = [];
+    await cart.save();
+
+    res.json({ message: "Purchase completed", ticket });
+  } catch (err) {
+    res.status(500).json({ message: "Server error", err });
   }
 };
 
