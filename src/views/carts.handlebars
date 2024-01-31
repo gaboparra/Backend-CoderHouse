@@ -11,16 +11,24 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="/">Home</a>
           </li>
-          {{!-- <li class="nav-item">
+          <li class="nav-item">
             <a class="nav-link" href="/login">Login</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/register">Register</a>
-          </li> --}}
+          </li>
+          {{#if user}}
+          <li class="nav-item">
+            <a class="nav-link" href="/profile">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/carts/{{user._id}}">Cart</a>
+          </li>
+          {{/if}}
         </ul>
-        {{!-- <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-          <button class="btn btn-outline-success" type="submit">Search</button>
+        {{!-- <form id="searchForm" class="d-flex" action="/" method="GET">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="query" />
+          <button id="searchButton" class="btn btn-outline-success" type="submit">Search</button>
         </form> --}}
       </div>
     </div>
@@ -34,7 +42,7 @@
     {{#each cart.products}}
     <li class="product-item border border-light p-3 mb-3">
       <h4 class="card-title product-title text-light">{{this.product.title}}</h4>
-      <p class="product-amount text-muted">Cantidad: {{this.product.amount}}</p>
+      <p class="product-amount text-muted">Cantidad: {{this.amount}}</p>
     </li>
     {{/each}}
   </ul>

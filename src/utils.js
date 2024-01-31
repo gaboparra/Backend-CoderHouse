@@ -3,6 +3,7 @@ import { fileURLToPath } from "url";
 import { dirname } from "path";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { faker } from "@faker-js/faker";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -40,4 +41,15 @@ export const authToken = (req, res, next) => {
     req.user = credentials.user;
     next();
   });
+};
+
+//Mock
+export const generateProducts = () => {
+  return {
+    title: faker.commerce.productName(),
+    description: faker.commerce.productDescription(),
+    price: faker.commerce.price(),
+    stock: faker.number.int({ max: 100 }),
+    imageUrl: faker.image.urlLoremFlickr(),
+  };
 };

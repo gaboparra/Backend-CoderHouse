@@ -1,4 +1,5 @@
 import ProductModel from "../dao/mongo/models/products.model.js";
+import { generateProducts } from "../utils.js";
 
 const ProductsCtrl = {};
 
@@ -21,6 +22,16 @@ ProductsCtrl.getProducts = async (req, res) => {
     console.error("Error in GET /", error);
     res.status(500).json({ status: "error", message: "Internal server error" });
   }
+};
+
+ProductsCtrl.mockingProducts = async (req, res) => {
+  const products = [];
+
+  for (let i = 0; i < 100; i++) {
+    products.push(generateProducts());
+  }
+
+  res.send({ status: "success", products });
 };
 
 ProductsCtrl.getProductById = async (req, res) => {

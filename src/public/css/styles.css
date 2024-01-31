@@ -23,6 +23,11 @@ p {
   font-family: "Arial", sans-serif;
   color: #333;
 }
+.card-stock {
+  font-size: 1.2em;
+  font-family: "Arial", sans-serif;
+  color: #333;
+}
 .brand-logo {
   width: auto;
   height: 40px;

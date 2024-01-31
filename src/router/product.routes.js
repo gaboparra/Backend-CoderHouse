@@ -5,6 +5,8 @@ const ProductRouter = Router();
 
 ProductRouter.get("/", ProductsCtrl.getProducts);
 
+ProductRouter.get("/mockingproducts", ProductsCtrl.mockingProducts);
+
 ProductRouter.get("/:pid", ProductsCtrl.getProductById);
 
 ProductRouter.post("/", ProductsCtrl.createProduct);

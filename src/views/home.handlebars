@@ -22,13 +22,15 @@
           <li class="nav-item">
             <a class="nav-link" href="/profile">Profile</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/carts/{{user._id}}">Cart</a>
+          </li>
           {{/if}}
         </ul>
         <form id="searchForm" class="d-flex" action="/" method="GET">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="query" />
           <button id="searchButton" class="btn btn-outline-success" type="submit">Search</button>
         </form>
-
       </div>
     </div>
   </nav>
@@ -60,6 +62,7 @@
             <div class="card-body">
               <h5 class="card-title">{{this.title}}</h5>
               <p class="card-price">{{this.price}} $</p>
+              <p class="card-stock">Stock: {{this.stock}}</p>
               <button class="btn btn-primary btn-block" onclick="addToCart('{{this._id}}')">Agregar al carrito</button>
             </div>
           </div>
