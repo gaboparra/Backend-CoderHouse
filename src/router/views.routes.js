@@ -1,4 +1,5 @@
 import { Router } from "express";
+import passport from "passport";
 import ViewsCtrl from "../controllers/views.controller.js";
 
 const ViewsRouter = Router();
@@ -23,6 +24,11 @@ ViewsRouter.get("/login", sessionActive, ViewsCtrl.loginView);
 
 ViewsRouter.get("/register", sessionActive, ViewsCtrl.registerView);
 
-ViewsRouter.get("/profile", auth, ViewsCtrl.profileView);
+ViewsRouter.get(
+  "/profile",
+  passport.authenticate("jwt", { session: false }),
+  auth,
+  ViewsCtrl.profileView
+);
 
 export default ViewsRouter;

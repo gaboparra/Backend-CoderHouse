@@ -61,9 +61,32 @@
             <img src="{{this.imageUrl}}" class="card-img-top" alt="{{this.title}}">
             <div class="card-body">
               <h5 class="card-title">{{this.title}}</h5>
-              <p class="card-price">{{this.price}} $</p>
-              <p class="card-stock">Stock: {{this.stock}}</p>
-              <button class="btn btn-primary btn-block" onclick="addToCart('{{this._id}}')">Agregar al carrito</button>
+              <!-- Detalles del producto en una lista -->
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Precio:</strong> {{this.price}} $</li>
+                <li class="list-group-item"><strong>Stock:</strong> {{this.stock}}</li>
+              </ul>
+              <button class="btn btn-primary btn-block mt-3" onclick="addToCart('{{this._id}}')">Agregar al
+                carrito</button>
+              <!-- Acordeón para la descripción -->
+              <div class="accordion mt-3" id="accordionExample">
+                <div class="card">
+                  <div class="card-header" id="headingOne">
+                    <h5 class="mb-0">
+                      <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
+                        aria-expanded="true" aria-controls="collapseOne">
+                        Ver descripción
+                      </button>
+                    </h5>
+                  </div>
+                  <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                    <div class="card-body">
+                      {{this.description}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Fin del acordeón -->
             </div>
           </div>
         </div>

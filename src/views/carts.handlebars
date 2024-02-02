@@ -11,12 +11,6 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="/">Home</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/login">Login</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/register">Register</a>
-          </li>
           {{#if user}}
           <li class="nav-item">
             <a class="nav-link" href="/profile">Profile</a>
@@ -46,7 +40,34 @@
     </li>
     {{/each}}
   </ul>
+
+  {{#if cart.products.length}}
+  <button onclick="finalizarCompra()">Finalizar Compra</button>
+  {{/if}}
+
   {{else}}
   <p class="no-cart-message text-muted">Carrito no encontrado</p>
   {{/if}}
 </div>
+
+<script>
+  async function finalizarCompra() {
+    try {
+      const response = await fetch(`/api/carts/${cartId}/purchase`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token,
+        },
+      });
+      if (response.ok) {
+        alert("Compra realizada con éxito");
+      } else {
+        alert("Error al procesar la compra");
+      }
+    } catch (error) {
+      console.error("Error al finalizar compra:", error);
+      alert("Error al procesar la compra");
+    }
+  }
+</script>

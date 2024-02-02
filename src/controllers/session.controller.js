@@ -5,7 +5,9 @@ const SessionCtrl = {};
 
 SessionCtrl.loginSession = async (req, res) => {
   try {
-    if (!req.user) return res.status(400).send("Invalid credentials");
+    if (!req.user) {
+      return res.status(400).render("login", { error: "Credenciales inválidas" });
+    }
 
     req.session.user = {
       _id: req.user._id,

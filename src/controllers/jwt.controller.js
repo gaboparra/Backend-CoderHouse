@@ -9,7 +9,12 @@ JwtCtrl.registerJwt = async (req, res) => {
   try {
     const result = await UserModel.create(user);
     const access_token = generateToken(result);
-    res.send({ status: "success", access_token });
+
+    req.session.user = user;
+
+    res.cookie("token", access_token, { httpOnly: true });
+
+    res.redirect("/");
   } catch (error) {
     console.error("Error when registering:", error);
     res.status(500).send({ status: "error", error: "Error when registering" });
