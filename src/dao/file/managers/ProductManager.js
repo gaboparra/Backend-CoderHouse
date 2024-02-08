@@ -1,6 +1,6 @@
 import { promises as fs } from "fs";
 import { nanoid } from "nanoid";
-
+import logger from "../../../utils/logger.js";
 class ProductManager {
   constructor(path) {
     this.path = path;
@@ -11,6 +11,7 @@ class ProductManager {
       let products = await fs.readFile(this.path, "utf-8");
       return JSON.parse(products);
     } catch (error) {
+      logger.error("Error al leer productos:", error);
       throw new Error("Error al leer productos: " + error.message);
     }
   };
@@ -19,6 +20,7 @@ class ProductManager {
     try {
       await fs.writeFile(this.path, JSON.stringify(product));
     } catch (error) {
+      logger.error("Error al escribir productos:", error);
       throw new Error("Error al escribir productos: " + error.message);
     }
   };
@@ -49,6 +51,7 @@ class ProductManager {
       await this.writeProducts(allProducts);
       return "Producto agregado";
     } catch (error) {
+      logger.error("Error al agregar productos:", error);
       throw new Error("Error al agregar productos: " + error.message);
     }
   };
@@ -57,6 +60,7 @@ class ProductManager {
     try {
       return await this.readProducts();
     } catch (error) {
+      logger.error("Error al obtener productos:", error);
       throw new Error("Error al obtener productos: " + error.message);
     }
   };
@@ -68,6 +72,7 @@ class ProductManager {
       if (!productById) return "Producto no encontrado";
       return productById;
     } catch (error) {
+      logger.error("Error al obtener producto por ID:", error);
       throw new Error("Error al obtener producto por ID: " + error.message);
     }
   };
@@ -83,6 +88,7 @@ class ProductManager {
       await this.writeProducts(oldProducts);
       return "Producto actualizado";
     } catch (error) {
+      logger.error("Error al actualizar productos:", error);
       throw new Error("Error al actualizar productos: " + error.message);
     }
   };
@@ -99,6 +105,7 @@ class ProductManager {
         return "Producto no encontrado";
       }
     } catch (error) {
+      logger.error("Error al eliminar productos:", error);
       throw new Error("Error al eliminar productos: " + error.message);
     }
   };

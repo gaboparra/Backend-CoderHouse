@@ -1,5 +1,6 @@
 import ProductModel from "../dao/mongo/models/products.model.js";
 import { generateProducts } from "../utils.js";
+import logger from "../utils/logger.js";
 
 const ProductsCtrl = {};
 
@@ -19,7 +20,7 @@ ProductsCtrl.getProducts = async (req, res) => {
 
     res.json({ status: "success", payload: products });
   } catch (error) {
-    console.error("Error in GET /", error);
+    logger.error("Error in GET /", error);
     res.status(500).json({ status: "error", message: "Internal server error" });
   }
 };
@@ -44,7 +45,7 @@ ProductsCtrl.getProductById = async (req, res) => {
       res.status(404).json({ status: "error", message: "Product not found" });
     }
   } catch (error) {
-    console.error(`Error in GET /${req.params.pid}`, error);
+    logger.error(`Error in GET /${req.params.pid}`, error);
     res.status(500).json({ status: "error", message: "Internal server error" });
   }
 };
@@ -55,7 +56,7 @@ ProductsCtrl.createProduct = async (req, res) => {
     const result = await ProductModel.create(data);
     res.json({ status: "success", payload: result });
   } catch (error) {
-    console.error("Error in POST /", error);
+    logger.error("Error in POST /", error);
     res.status(500).json({ status: "error", message: "Internal server error" });
   }
 };
@@ -70,7 +71,7 @@ ProductsCtrl.deleteProduct = async (req, res) => {
       res.status(404).json({ status: "error", message: "Product not found" });
     }
   } catch (error) {
-    console.error(`Error in DELETE /${req.params.pid}`, error);
+    logger.error(`Error in DELETE /${req.params.pid}`, error);
     res.status(500).json({ status: "error", message: "Internal server error" });
   }
 };
@@ -89,7 +90,7 @@ ProductsCtrl.updateProduct = async (req, res) => {
       res.status(404).json({ status: "error", message: "Product not found" });
     }
   } catch (error) {
-    console.error(`Error in PUT /${req.params.pid}`, error);
+    logger.error(`Error in PUT /${req.params.pid}`, error);
     res.status(500).json({ status: "error", message: "Internal server error" });
   }
 };

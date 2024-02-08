@@ -1,9 +1,9 @@
 import { promises as fs } from "fs";
 import { nanoid } from "nanoid";
 import ProductManager from "./ProductManager.js";
+import logger from "../../../utils/logger.js";
 
 const allProducts = new ProductManager("./src/dao/files/products.json");
-
 class CartManager {
   constructor(path) {
     this.path = path;
@@ -14,6 +14,7 @@ class CartManager {
       let carts = await fs.readFile(this.path, "utf-8");
       return JSON.parse(carts);
     } catch (error) {
+      logger.error("Error al leer carritos:", error);
       throw new Error("Error al leer carritos: " + error.message);
     }
   };
@@ -22,18 +23,24 @@ class CartManager {
     try {
       await fs.writeFile(this.path, JSON.stringify(carts));
     } catch (error) {
+      logger.error("Error al escribir carritos:", error);
       throw new Error("Error al escribir carritos: " + error.message);
     }
   };
 
   addCarts = async () => {
-    let oldCarts = await this.readCarts();
-    const id = nanoid();
-    const newCart = { id, products: [] };
+    try {
+      let oldCarts = await this.readCarts();
+      const id = nanoid();
+      const newCart = { id, products: [] };
 
-    let allCarts = [...newCart, ...oldCarts];
-    await this.writeCarts(allCarts);
-    return "Carrito agregado";
+      let allCarts = [...newCart, ...oldCarts];
+      await this.writeCarts(allCarts);
+      return "Carrito agregado";
+    } catch (error) {
+      logger.error("Error al agregar carrito:", error);
+      throw new Error("Error al agregar carrito: " + error.message);
+    }
   };
 
   getCartsById = async (id) => {
@@ -43,6 +50,7 @@ class CartManager {
       if (!cartById) return "Carrito no encontrado";
       return cartById;
     } catch (error) {
+      logger.error("Error al obtener carrito por ID:", error);
       throw new Error("Error al obtener carrito por ID: " + error.message);
     }
   };
@@ -72,6 +80,7 @@ class CartManager {
 
       return "Producto agregado al carrito";
     } catch (error) {
+      logger.error("Error al agregar producto al carrito:", error);
       throw new Error("Error al agregar producto al carrito: " + error.message);
     }
   };

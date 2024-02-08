@@ -5,13 +5,13 @@ import GitHubStrategy from "passport-github2";
 import UserModel from "../dao/mongo/models/user.model.js";
 import { createHash, generateToken, isValidPassword } from "../utils.js";
 import config from "./config.js";
+import logger from "../utils/logger.js";
 
 const LocalStrategy = local.Strategy;
 const JWTStrategy = passportJWT.Strategy;
 
 const initializePassport = () => {
-  
-  passport.use("register", new LocalStrategy(
+  passport.use('register', new LocalStrategy(
       {
         passReqToCallback: true,
         usernameField: "email",
@@ -37,14 +37,14 @@ const initializePassport = () => {
           const result = await UserModel.create(newUser);
           return done(null, result);
         } catch (error) {
-          console.error("Error when registering:", error);
-          return done("Error when registering", false, {message: "Error when registering"});
+          logger.error("Error when registering:", error);
+          return done("Error when registering", false, { message: "Error when registering" });
         }
       }
     )
   );
 
-  passport.use("login", new LocalStrategy(
+  passport.use('login', new LocalStrategy(
       {
         usernameField: "email",
       },
@@ -52,15 +52,16 @@ const initializePassport = () => {
         try {
           const user = await UserModel.findOne({ email: username }).lean().exec();
           if (!user) {
-            console.error("Username does not exist");
+            logger.error("Username does not exist");
             return done(null, false);
           }
           if (!isValidPassword(user, password)) {
-            console.error("Invalid password");
+            logger.error("Invalid password");
             return done(null, false);
           }
           return done(null, user);
         } catch (error) {
+          logger.error("Error when logging in:", error);
           return done("error when logging in " + error);
         }
       }
@@ -68,7 +69,7 @@ const initializePassport = () => {
   );
 
   // Github
-  passport.use("github", new GitHubStrategy(
+  passport.use('github', new GitHubStrategy(
       {
         clientID: config.clientID,
         clientSecret: config.clientSecret,
@@ -78,7 +79,7 @@ const initializePassport = () => {
         try {
           let user = await UserModel.findOne({ email: profile._json.email });
           if (!user) {
-            console.log("User doesn't exist. Pass to register...");
+            logger.info("User doesn't exist. Pass to register...");
 
             user = {
               first_name: profile._json.name,
@@ -90,7 +91,7 @@ const initializePassport = () => {
             };
 
             const result = await UserModel.create(user);
-            console.log("User registered succesfully.");
+            logger.info("User registered successfully.");
 
             user._id = result._id;
           }
@@ -100,14 +101,14 @@ const initializePassport = () => {
 
           return done(null, user);
         } catch (error) {
-          console.error(error);
+          logger.error("[GITHUB]", error);
           return done("[GITHUB] " + error);
         }
       }
     )
   );
 
-  passport.use("jwt", new JWTStrategy(
+  passport.use('jwt', new JWTStrategy(
       {
         jwtFromRequest: passportJWT.ExtractJwt.fromExtractors([
           (req) => req?.cookies?.cookieJWT ?? null,

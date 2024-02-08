@@ -8,6 +8,7 @@ import passport from "passport";
 import initializePassport from "./config/passport.config.js";
 import cookieParser from "cookie-parser";
 import config from "./config/config.js";
+import logger from "./utils/logger.js";
 
 import __dirname from "./utils.js";
 import ProductRouter from "./router/product.routes.js";
@@ -17,6 +18,7 @@ import SessionRouter from "./router/session.routes.js";
 import jwtRouter from "./router/jwt.routes.js";
 import ProductManager from "./dao/file/managers/ProductManager.js";
 import MailingRouter from "./router/mailing.routes.js";
+import LoggerRouter from "./router/logger.routes.js";
 
 // Variables
 const app = express();
@@ -55,20 +57,21 @@ app.use("/", ViewsRouter);
 app.use("/", SessionRouter);
 app.use("/", jwtRouter);
 app.use("/", MailingRouter);
+app.use("/", LoggerRouter)
 app.use("/api/products", ProductRouter);
 app.use("/api/carts", CartRouter);
 
 // MongoDB
 mongoose.connect(config.mongoURL, { dbName: config.mongoDBName })
   .then(() => {
-    console.log("Connected to the database.");
+    logger.info("Connected to the database.");
   })
   .catch((error) => {
-    console.log("Error connecting to the database:", error.message);
+    logger.error("Error connecting to the database:", error.message);
   });
 
-const server = app.listen(process.env.PORT, () =>
-  console.log(`Server is running on port ${process.env.PORT}`)
+const server = app.listen(config.port, () =>
+  logger.info(`Server is running on port ${config.port}`)
 );
 
 // WebSocket
@@ -87,5 +90,5 @@ socketServer.on("connection", async (socket) => {
     await manager.deleteProducts(id);
   });
 
-  //console.log("Nuevo cliente conectado");
+  // logger.info("Nuevo cliente conectado");
 });

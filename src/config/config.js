@@ -12,4 +12,5 @@ export default {
   PRIVATE_KEY: process.env.PRIVATE_KEY,
   user: process.env.USER,
   GMAIL_KEY: process.env.GMAIL_KEY,
+  NODE_ENV: process.env.NODE_ENV,
 };

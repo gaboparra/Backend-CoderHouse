@@ -1,5 +1,6 @@
 import UserModel from "../dao/mongo/models/user.model.js";
 import { generateToken } from "../utils.js";
+import logger from "../utils/logger.js";
 
 const JwtCtrl = {};
 
@@ -16,7 +17,7 @@ JwtCtrl.registerJwt = async (req, res) => {
 
     res.redirect("/");
   } catch (error) {
-    console.error("Error when registering:", error);
+    logger.error("Error when registering:", error);
     res.status(500).send({ status: "error", error: "Error when registering" });
   }
 };
@@ -35,7 +36,7 @@ JwtCtrl.loginJwt = async (req, res) => {
 
     res.redirect("/");
   } catch (error) {
-    console.error("Error when logging in:", error);
+    logger.error("Error when logging in:", error);
     res.status(500).send({ status: "error", error: "Error when logging in" });
   }
 };

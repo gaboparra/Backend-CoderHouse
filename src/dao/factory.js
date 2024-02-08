@@ -1,17 +1,22 @@
 import config from "../config/config.js";
 import mongoose from "mongoose";
 import { opts } from "../commander.js";
+import logger from "../utils/logger.js";
 
 export let User;
 export let Product;
 export let Cart;
-// export let Ticket;
 
-console.log("persistence with " + opts.persistence);
+logger.info("Persistence with " + opts.persistence);
 
 if (opts.persistence === "MONGO") {
-  await mongoose.connect(config.mongoURL, { dbName: config.mongoDBName });
-  console.log("Connected to the database.");
+  await mongoose.connect(config.mongoURL, { dbName: config.mongoDBName })
+    .then(() => {
+      logger.info("Connected to the database.");
+    })
+    .catch((error) => {
+      logger.error("Error connecting to the database:", error.message);
+    });
 
   const { default: UserMongo } = await import("./mongo/users.mongo.js");
   const { default: ProductMongo } = await import("./mongo/products.mongo.js");
@@ -21,5 +26,5 @@ if (opts.persistence === "MONGO") {
   Product = ProductMongo;
   Cart = CartMongo;
 } else {
-  console.log("Error when choosing persistence");
+  logger.error("Error when choosing persistence");
 }

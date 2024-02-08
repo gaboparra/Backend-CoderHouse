@@ -1,4 +1,5 @@
 import { Command } from "commander";
+import logger from "./utils/logger.js";
 
 const program = new Command();
 
@@ -11,5 +12,5 @@ if (typeof program.opts().persistence === "undefined") {
   program.opts().persistence = "MONGO";
 }
 
-console.log("persistencia ", program.opts().persistence);
+logger.info("persistencia ", program.opts().persistence);
 export const opts = program.opts();

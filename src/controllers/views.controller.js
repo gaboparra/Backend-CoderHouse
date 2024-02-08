@@ -1,5 +1,6 @@
 import ProductModel from "../dao/mongo/models/products.model.js";
 import CartModel from "../dao/mongo/models/carts.model.js";
+import logger from "../utils/logger.js";
 
 const ViewsCtrl = {};
 
@@ -26,7 +27,7 @@ ViewsCtrl.homeProducts = async (req, res) => {
       user,
     });
   } catch (error) {
-    console.error("Error getting products:", error);
+    logger.error("Error getting products:", error);
     res.status(500).render("error", { message: "Error getting products" });
   }
 };
@@ -38,7 +39,7 @@ ViewsCtrl.realTimeProducts = async (req, res) => {
       style: "styles.css",
     });
   } catch (error) {
-    console.error("Error rendering real time products view", error);
+    logger.error("Error rendering real time products view", error);
     res.status(500).render("error", { message: "Error getting products in real time" });
   }
 };
@@ -46,14 +47,14 @@ ViewsCtrl.realTimeProducts = async (req, res) => {
 ViewsCtrl.cartView = async (req, res) => {
   try {
     const cart = await CartModel.findById(req.params.cid).lean().exec();
-    console.log("Cart data:", cart);
+    logger.info("Cart data:", cart);
     res.render("carts", {
       title: "Cart Details",
       style: "styles.css",
       cart,
     });
   } catch (error) {
-    console.error("Error rendering cart details view", error);
+    logger.error("Error rendering cart details view", error);
     res.status(500).render("error", { message: "Error getting cart details" });
   }
 };
@@ -85,7 +86,7 @@ ViewsCtrl.profileView = (req, res) => {
       user: user,
     });
   } catch (error) {
-    console.error("Error rendering profile:", error);
+    logger.error("Error rendering profile:", error);
     res.status(500).render("error", { message: "Error rendering profile" });
   }
 };
