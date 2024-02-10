@@ -6,6 +6,9 @@ import UserModel from "../dao/mongo/models/user.model.js";
 import { createHash, generateToken, isValidPassword } from "../utils.js";
 import config from "./config.js";
 import logger from "../utils/logger.js";
+import Cart from "../dao/mongo/carts.mongo.js";
+
+const CartInstance = new Cart()
 
 const LocalStrategy = local.Strategy;
 const JWTStrategy = passportJWT.Strategy;
@@ -23,6 +26,8 @@ const initializePassport = () => {
           if (user) {
             return done(null, false, { message: "User already exists" });
           }
+          
+          const cart = await CartInstance.createCart()
 
           const newUser = {
             first_name,
@@ -30,7 +35,7 @@ const initializePassport = () => {
             age,
             email,
             password: createHash(password),
-            cart: null,
+            cart: cart._id,
             role: "user",
           };
 
@@ -59,6 +64,9 @@ const initializePassport = () => {
             logger.error("Invalid password");
             return done(null, false);
           }
+
+          const token = generateToken(user);
+          user.token = token;
           return done(null, user);
         } catch (error) {
           logger.error("Error when logging in:", error);

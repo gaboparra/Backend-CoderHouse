@@ -3,7 +3,7 @@ import logger from "../utils/logger.js";
 export const authorization = (role) => {
   return async (req, res, next) => {
     try {
-      const user = req.user;
+      const user = req.session.user;
 
       if (!user) {
         return res.status(401).json({ error: "Not authorized", message: "Unauthenticated user" });

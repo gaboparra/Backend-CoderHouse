@@ -10,6 +10,8 @@ SessionCtrl.loginSession = async (req, res) => {
       return res.status(400).render("login", { error: "Credenciales inválidas" });
     }
 
+    const { token } = req.user;
+
     req.session.user = {
       _id: req.user._id,
       first_name: req.user.first_name,
@@ -20,7 +22,10 @@ SessionCtrl.loginSession = async (req, res) => {
       role: req.user.role,
     };
 
-    return res.redirect("/");
+    return res.cookie("cookieJWT", token, {
+      maxAge: 60 * 60 * 1000,
+      httpOnly: true}).redirect("/");
+
   } catch (error) {
     logger.error("Error during login:", error);
     return res.status(500).render("error", { message: "Error during login" });

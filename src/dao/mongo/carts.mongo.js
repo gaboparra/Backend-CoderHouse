@@ -1,6 +1,6 @@
 import CartModel from "./models/carts.model.js";
 
-export default class User {
+export default class Cart {
   getCarts = async () => {
     return CartModel.find();
   };
