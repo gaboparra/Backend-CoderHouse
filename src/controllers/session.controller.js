@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import config from "../config/config.js";
 import logger from "../utils/logger.js";
+import { generateToken, sendPasswordResetEmail } from "../utils.js";
 
 const SessionCtrl = {};
 
@@ -23,9 +24,9 @@ SessionCtrl.loginSession = async (req, res) => {
     };
 
     return res.cookie("cookieJWT", token, {
-      maxAge: 60 * 60 * 1000,
-      httpOnly: true}).redirect("/");
-
+        maxAge: 60 * 60 * 1000,
+        httpOnly: true,
+      }).redirect("/");
   } catch (error) {
     logger.error("Error during login:", error);
     return res.status(500).render("error", { message: "Error during login" });
@@ -81,6 +82,21 @@ SessionCtrl.currentSession = (req, res) => {
   } catch (error) {
     logger.error("User not found:", error);
     return res.status(500).render("error", { message: "User not found" });
+  }
+};
+
+SessionCtrl.requestPasswordReset = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const token = generateToken({ email });
+
+    await sendPasswordResetEmail(email, token);
+
+    res.send("Correo electrónico enviado con éxito para restablecer la contraseña");
+  } catch (error) {
+    logger.error("Error al solicitar restablecimiento de contraseña:", error);
+    res.status(500).send("Error al solicitar restablecimiento de contraseña");
   }
 };
 

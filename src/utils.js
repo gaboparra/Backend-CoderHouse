@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { faker } from "@faker-js/faker";
 import logger from "./utils/logger.js";
+import nodemailer from "nodemailer";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -17,7 +18,6 @@ export const createHash = (password) => {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(10));
   } catch (error) {
     logger.error("Error when creating hash:", error);
-    throw error;
   }
 };
 
@@ -37,7 +37,6 @@ export const generateToken = (user) => {
     return jwt.sign({ user }, config.PRIVATE_KEY, { expiresIn: "24h" });
   } catch (error) {
     logger.error("Error when generating token:", error);
-    throw error;
   }
 };
 
@@ -72,6 +71,31 @@ export const generateProducts = () => {
     };
   } catch (error) {
     logger.error("Error when generating products:", error);
-    throw error;
+  }
+};
+
+// Reset Password
+const transport = nodemailer.createTransport({
+  service: "gmail",
+  port: 587,
+  auth: {
+    user: config.user,
+    pass: config.GMAIL_KEY,
+  },
+});
+
+export const sendPasswordResetEmail = async (email, token) => {
+  try {
+    const resetLink = `http://localhost:8080/reset-password/${token}`;
+    const mailOptions = {
+      from: config.user,
+      to: email,
+      subject: "Recuperación de contraseña",
+      text: `Haz clic en el siguiente enlace para restablecer tu contraseña: ${resetLink}`,
+    };
+
+    await transport.sendMail(mailOptions);
+  } catch (error) {
+    logger.error("Error al enviar correo electrónico de restablecimiento de contraseña:", error);
   }
 };
