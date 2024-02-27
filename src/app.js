@@ -9,6 +9,8 @@ import initializePassport from "./config/passport.config.js";
 import cookieParser from "cookie-parser";
 import config from "./config/config.js";
 import logger from "./utils/logger.js";
+import swaggerJSDoc from "swagger-jsdoc";
+import SwaggerUiExpress from "swagger-ui-express";
 
 import __dirname from "./utils.js";
 import ProductRouter from "./router/product.routes.js";
@@ -73,6 +75,19 @@ mongoose.connect(config.mongoURL, { dbName: config.mongoDBName })
 const server = app.listen(config.port, () =>
   logger.info(`Server is running on port ${config.port}`)
 );
+
+const swaggerOptions = {
+  definition: {
+    openapi: "3.0.1",
+    info: {
+      title:'Documentación de Ecommerce',
+      description: 'Descripción'
+    }
+  },
+  apis: [`${__dirname}/docs/**/*.yaml`]
+}
+const specs = swaggerJSDoc(swaggerOptions)
+app.use('/apidocs', SwaggerUiExpress.serve, SwaggerUiExpress.setup(specs))
 
 // WebSocket
 const socketServer = new Server(server);

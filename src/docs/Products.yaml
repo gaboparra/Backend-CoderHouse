@@ -1,0 +1,177 @@
+# openapi: 3.0.1
+# info:
+#   title: Documentación de API - Productos
+#   description: API para administrar productos en una tienda en línea.
+#   version: 1.0.0
+paths:
+  /api/products:
+    get:
+      summary: Obtener todos los productos
+      description: Obtiene una lista de todos los productos.
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Lista de productos obtenida exitosamente.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+    post:
+      summary: Crear un nuevo producto
+      description: Crea un nuevo producto.
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductInput"
+      responses:
+        "200":
+          description: Producto creado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "400":
+          description: Error al crear el producto.
+
+  /api/products/{pid}:
+    get:
+      summary: Obtener un producto por ID
+      description: Obtiene un producto específico según su ID.
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: pid
+          required: true
+          description: ID del producto a obtener.
+          schema:
+            type: string
+          example: "610eac65fbc608001f3b20b7"
+      responses:
+        "200":
+          description: Producto obtenido exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "404":
+          description: Producto no encontrado.
+
+    put:
+      summary: Actualizar un producto existente
+      description: Actualiza un producto existente según su ID.
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: pid
+          required: true
+          description: ID del producto a actualizar.
+          schema:
+            type: string
+          example: "610eac65fbc608001f3b20b7"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductInput"
+      responses:
+        "200":
+          description: Producto actualizado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "404":
+          description: Producto no encontrado.
+
+    delete:
+      summary: Eliminar un producto existente
+      description: Elimina un producto existente según su ID.
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: pid
+          required: true
+          description: ID del producto a eliminar.
+          schema:
+            type: string
+          example: "610eac65fbc608001f3b20b7"
+      responses:
+        "200":
+          description: Producto eliminado exitosamente.
+        "404":
+          description: Producto no encontrado.
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Identificador único del producto.
+          example: "610eac65fbc608001f3b20b7"
+        title:
+          type: string
+          description: Título del producto.
+          example: "Título"
+        description:
+          type: string
+          description: Descripción del producto.
+          example: "Descripción."
+        price:
+          type: number
+          format: float
+          description: Precio del producto.
+          example: 19.99
+        stock:
+          type: integer
+          description: Cantidad disponible en stock.
+          example: 100
+        imageUrl:
+          type: string
+          format: uri
+          description: URL de la imagen del producto.
+          example: "https://example.com/images/manga.jpg"
+
+    ProductInput:
+      type: object
+      required:
+        - title
+        - description
+        - price
+        - stock
+        - imageUrl
+      properties:
+        title:
+          type: string
+          description: Título del producto.
+          example: "Título"
+        description:
+          type: string
+          description: Descripción del producto.
+          example: "Descripción."
+        price:
+          type: number
+          format: float
+          description: Precio del producto.
+          example: 19.99
+        stock:
+          type: integer
+          description: Cantidad disponible en stock.
+          example: 100
+        imageUrl:
+          type: string
+          format: uri
+          description: URL de la imagen del producto.
+          example: "https://example.com/images/manga.jpg"

@@ -121,7 +121,7 @@
     <script>
       async function addToCart(productId) {
         try {
-          const response = await fetch(`/api/carts/65c53c5ad5ab5163c7bbd881/product/${productId}`, {
+          const response = await fetch(`/api/carts/65c53c5ad5ab5163c7bbd881/products/${productId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

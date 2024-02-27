@@ -10,7 +10,7 @@ CartRouter.get("/", CartsCtrl.getCarts);
 CartRouter.get("/:cid", CartsCtrl.getCartById);
 
 CartRouter.post(
-  "/:cid/product/:pid",
+  "/:cid/products/:pid",
   // passport.authenticate("jwt", { session: false }),
   authorization("user"),
   CartsCtrl.addProductInCart
