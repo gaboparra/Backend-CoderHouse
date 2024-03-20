@@ -68,7 +68,7 @@ CartsCtrl.deleteAllProducts = async (req, res) => {
     await cart.save();
 
     logger.info("Cart emptied successfully");
-    return res.status(200).json({ message: "Carrito vaciado exitosamente", cart });
+    return res.status(200).json({ message: "Cart successfully emptied", cart });
   } catch (error) {
     logger.error("Error emptying cart:", error);
     return res.status(500).json({ message: "Internal server error" });

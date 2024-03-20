@@ -8,7 +8,7 @@ const SessionCtrl = {};
 SessionCtrl.loginSession = async (req, res) => {
   try {
     if (!req.user) {
-      return res.status(400).render("login", { error: "Credenciales inválidas" });
+      return res.status(400).render("login", { error: "Invalid credentials" });
     }
 
     const { token } = req.user;
@@ -93,10 +93,10 @@ SessionCtrl.requestPasswordReset = async (req, res) => {
 
     await sendPasswordResetEmail(email, token);
 
-    res.send("Correo electrónico enviado con éxito para restablecer la contraseña");
+    res.send("Email successfully sent to reset password");
   } catch (error) {
-    logger.error("Error al solicitar restablecimiento de contraseña:", error);
-    res.status(500).send("Error al solicitar restablecimiento de contraseña");
+    logger.error("Error requesting password reset:", error);
+    res.status(500).send("Error requesting password reset");
   }
 };
 

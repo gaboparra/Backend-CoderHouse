@@ -4,12 +4,18 @@ export default class UserRepository {
   }
 
   getUsers = async () => {
-    return this.dao.getUsers();
+    return await this.dao.getUsers();
   };
   getUserById = async (id) => {
-    return this.dao.getUserById(id);
+    return await this.dao.getUserById(id);
   };
   register = async (user) => {
-    return this.dao.createUser(user);
+    return await this.dao.createUser(user);
+  };
+  updateUser = async (id, user) => {
+    return await this.dao.updateOne({ _id: id }, { $set: user });
+  };
+  deleteUser = async (id) => {
+    return await this.dao.deleteOne(id);
   };
 }

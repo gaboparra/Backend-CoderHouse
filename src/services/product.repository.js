@@ -4,12 +4,18 @@ export default class ProductRepository {
   }
 
   getProducts = async () => {
-    return this.dao.getProducts();
+    return await this.dao.getProducts();
   };
   getProductById = async (id) => {
-    return this.dao.getProductById(id);
+    return await this.dao.getProductById(id);
   };
   createProduct = async (product) => {
-    return this.dao.createProduct(product);
+    return await this.dao.createProduct(product);
+  };
+  updateProduct = async (id, product) => {
+    return await this.dao.updateOne({ _id: id }, { $set: product });
+  };
+  deleteProduct = async (id) => {
+    return await this.dao.deleteOne(id);
   };
 }

@@ -2,13 +2,18 @@ import UserModel from "./models/user.model.js";
 
 export default class User {
   getUsers = async () => {
-    return UserModel.find();
+    return await UserModel.find();
   };
   getUserById = async (id) => {
-    return UserModel.findById(id);
+    return await UserModel.findById(id);
   };
   createUser = async (user) => {
-    return UserModel.create(user);
+    return await UserModel.create(user);
   };
-  // updateUser = async (id, user) => { return UserModel.updateOne({ _id: id }, { $set: user }) }
+  updateUser = async (id, user) => {
+    return await UserModel.updateOne({ _id: id }, { $set: user });
+  };
+  deleteUser = async (id) => {
+    return await UserModel.deleteOne(id);
+  };
 }

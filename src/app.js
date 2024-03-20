@@ -59,7 +59,7 @@ app.use("/", ViewsRouter);
 app.use("/", SessionRouter);
 app.use("/", jwtRouter);
 app.use("/", MailingRouter);
-app.use("/", LoggerRouter)
+app.use("/", LoggerRouter);
 app.use("/api/products", ProductRouter);
 app.use("/api/carts", CartRouter);
 
@@ -80,14 +80,14 @@ const swaggerOptions = {
   definition: {
     openapi: "3.0.1",
     info: {
-      title:'Documentación de Ecommerce',
-      description: 'Descripción'
-    }
+      title: "Documentación de Ecommerce",
+      description: "Descripción",
+    },
   },
-  apis: [`${__dirname}/docs/**/*.yaml`]
-}
-const specs = swaggerJSDoc(swaggerOptions)
-app.use('/apidocs', SwaggerUiExpress.serve, SwaggerUiExpress.setup(specs))
+  apis: [`${__dirname}/docs/**/*.yaml`],
+};
+const specs = swaggerJSDoc(swaggerOptions);
+app.use("/apidocs", SwaggerUiExpress.serve, SwaggerUiExpress.setup(specs));
 
 // WebSocket
 const socketServer = new Server(server);

@@ -8,13 +8,13 @@ import config from "./config.js";
 import logger from "../utils/logger.js";
 import Cart from "../dao/mongo/carts.mongo.js";
 
-const CartInstance = new Cart()
+const CartInstance = new Cart();
 
 const LocalStrategy = local.Strategy;
 const JWTStrategy = passportJWT.Strategy;
 
 const initializePassport = () => {
-  passport.use('register', new LocalStrategy(
+  passport.use("register", new LocalStrategy(
       {
         passReqToCallback: true,
         usernameField: "email",
@@ -26,8 +26,8 @@ const initializePassport = () => {
           if (user) {
             return done(null, false, { message: "User already exists" });
           }
-          
-          const cart = await CartInstance.createCart()
+
+          const cart = await CartInstance.createCart();
 
           const newUser = {
             first_name,
@@ -49,13 +49,15 @@ const initializePassport = () => {
     )
   );
 
-  passport.use('login', new LocalStrategy(
+  passport.use("login", new LocalStrategy(
       {
         usernameField: "email",
       },
       async (username, password, done) => {
         try {
-          const user = await UserModel.findOne({ email: username }).lean().exec();
+          const user = await UserModel.findOne({ email: username })
+            .lean()
+            .exec();
           if (!user) {
             logger.error("Username does not exist");
             return done(null, false);
@@ -77,7 +79,7 @@ const initializePassport = () => {
   );
 
   // Github
-  passport.use('github', new GitHubStrategy(
+  passport.use("github", new GitHubStrategy(
       {
         clientID: config.clientID,
         clientSecret: config.clientSecret,
@@ -116,7 +118,7 @@ const initializePassport = () => {
     )
   );
 
-  passport.use('jwt', new JWTStrategy(
+  passport.use("jwt", new JWTStrategy(
       {
         jwtFromRequest: passportJWT.ExtractJwt.fromExtractors([
           (req) => req?.cookies?.cookieJWT ?? null,

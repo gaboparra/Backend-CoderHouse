@@ -90,12 +90,12 @@ export const sendPasswordResetEmail = async (email, token) => {
     const mailOptions = {
       from: config.user,
       to: email,
-      subject: "Recuperación de contraseña",
-      text: `Haz clic en el siguiente enlace para restablecer tu contraseña: ${resetLink}`,
+      subject: "Password recovery",
+      text: `Click the link below to reset your password: ${resetLink}`,
     };
 
     await transport.sendMail(mailOptions);
   } catch (error) {
-    logger.error("Error al enviar correo electrónico de restablecimiento de contraseña:", error);
+    logger.error("Error sending password reset email:", error);
   }
 };

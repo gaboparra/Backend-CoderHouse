@@ -2,15 +2,18 @@ import CartModel from "./models/carts.model.js";
 
 export default class Cart {
   getCarts = async () => {
-    return CartModel.find();
+    return await CartModel.find();
   };
   getCartById = async (id) => {
-    return CartModel.findById(id);
+    return await CartModel.findById(id);
   };
   createCart = async (cart) => {
-    return CartModel.create(cart);
+    return await CartModel.create(cart);
+  };
+  deleteCart = async (id) => {
+    return await CartModel.deleteOne(id);
   };
   updateCart = async (id, cart) => {
-    return CartModel.updateOne({ _id: id }, { $set: cart });
+    return await CartModel.updateOne({ _id: id }, { $set: cart });
   };
 }

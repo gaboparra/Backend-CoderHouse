@@ -4,19 +4,24 @@ export default class CartRepository {
   }
 
   getCarts = async () => {
-    return this.dao.getCarts();
+    return await this.dao.getCarts();
   };
   getCartById = async (id) => {
-    return this.dao.getCartById(id);
+    return await this.dao.getCartById(id);
   };
   createCart = async (cart) => {
-    return this.dao.createCart(cart);
+    return await this.dao.createCart(cart);
   };
-
   addProduct = async (id, product) => {
     const cart = await this.dao.getCartById(id);
     cart.products.push(product);
 
-    return this.dao.updateCart(id, cart);
+    return await this.dao.updateCart(id, cart);
+  };
+  deleteCart = async (id) => {
+    return await this.dao.deleteOne(id);
+  };
+  updateCart = async (id, cart) => {
+    return await this.dao.updateOne({ _id: id }, { $set: cart });
   };
 }
