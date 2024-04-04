@@ -9,7 +9,7 @@ export const authorization = (role) => {
         return res.status(401).json({ error: "Not authorized", message: "Unauthenticated user" });
       }
 
-      if (user.role !== role) {
+      if (user.role !== role && user.role !== "admin") {
         return res.status(403).json({
           error: "Not authorized",
           message: "You do not have permissions to perform this action",

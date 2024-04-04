@@ -248,28 +248,3 @@ p {
 }
 
 /* Estilos Cart */
-.cart-details {
-  text-align: center;
-}
-
-.product-list {
-  list-style-type: none;
-  padding: 0;
-}
-
-.product-item {
-  margin-bottom: 20px;
-}
-
-.product-title {
-  color: #fff;
-}
-
-.product-amount {
-  color: #ccc;
-}
-
-.no-cart-message {
-  font-style: italic;
-  color: #aaa;
-}

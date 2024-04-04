@@ -84,6 +84,22 @@ const transport = nodemailer.createTransport({
   },
 });
 
+export const sendInactiveUserEmail = async (email) => {
+  try {
+    const mailOptions = {
+      from: config.user,
+      to: email,
+      subject: "Eliminación de cuenta por inactividad",
+      text: "Tu cuenta ha sido eliminada debido a inactividad.",
+    };
+
+    await transport.sendMail(mailOptions);
+  } catch (error) {
+    console.error("Error al enviar correo electrónico:", error);
+    throw new Error("Error al enviar correo electrónico");
+  }
+};
+
 export const sendPasswordResetEmail = async (email, token) => {
   try {
     const resetLink = `http://localhost:8080/reset-password/${token}`;

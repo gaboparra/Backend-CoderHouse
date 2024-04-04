@@ -21,7 +21,7 @@ ViewsCtrl.homeProducts = async (req, res) => {
     const user = req.session.user;
 
     res.render("home", {
-      title: "Ecommerce",
+      title: "GeekyManga",
       style: "styles.css",
       products,
       user,
@@ -35,7 +35,7 @@ ViewsCtrl.homeProducts = async (req, res) => {
 ViewsCtrl.realTimeProducts = async (req, res) => {
   try {
     res.render("realTimeProducts", {
-      title: "Handlebars",
+      title: "Real Time Products",
       style: "styles.css",
     });
   } catch (error) {
@@ -49,7 +49,7 @@ ViewsCtrl.cartView = async (req, res) => {
     const cart = await CartModel.findById(req.params.cid).lean().exec();
     logger.info("Cart data:", cart);
     res.render("carts", {
-      title: "Cart Details",
+      title: "Cart",
       style: "styles.css",
       cart,
     });
@@ -61,14 +61,14 @@ ViewsCtrl.cartView = async (req, res) => {
 
 ViewsCtrl.loginView = (req, res) => {
   return res.render("login", {
-    title: "Ecommerce",
+    title: "Login",
     style: "styles.css",
   });
 };
 
 ViewsCtrl.registerView = (req, res) => {
   return res.render("register", {
-    title: "Ecommerce",
+    title: "Register",
     style: "styles.css",
   });
 };
@@ -81,7 +81,7 @@ ViewsCtrl.profileView = (req, res) => {
       return res.redirect("/login");
     }
     res.render("profile", {
-      title: "Ecommerce",
+      title: "Profile",
       style: "styles.css",
       user: user,
     });
@@ -89,6 +89,28 @@ ViewsCtrl.profileView = (req, res) => {
     logger.error("Error rendering profile:", error);
     res.status(500).render("error", { message: "Error rendering profile" });
   }
+};
+
+ViewsCtrl.checkoutView = (req, res) => {
+  return res.render("checkout", {
+    title: "Checkout",
+    style: "styles.css",
+    cart: req.session.cart,
+  });
+};
+
+ViewsCtrl.paymentSuccessView = (req, res) => {
+  return res.render("payment-success", {
+    title: "Payment Success",
+    style: "styles.css",
+  });
+};
+
+ViewsCtrl.paymentErrorView = (req, res) => {
+  return res.render("payment-error", {
+    title: "Payment Error",
+    style: "styles.css",
+  });
 };
 
 export default ViewsCtrl;

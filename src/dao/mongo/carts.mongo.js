@@ -11,7 +11,7 @@ export default class Cart {
     return await CartModel.create(cart);
   };
   deleteCart = async (id) => {
-    return await CartModel.deleteOne(id);
+    return await CartModel.deleteOne({ _id: id });
   };
   updateCart = async (id, cart) => {
     return await CartModel.updateOne({ _id: id }, { $set: cart });

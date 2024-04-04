@@ -11,6 +11,7 @@ import config from "./config/config.js";
 import logger from "./utils/logger.js";
 import swaggerJSDoc from "swagger-jsdoc";
 import SwaggerUiExpress from "swagger-ui-express";
+import cors from "cors";
 
 import __dirname from "./utils.js";
 import ProductRouter from "./router/product.routes.js";
@@ -21,9 +22,13 @@ import jwtRouter from "./router/jwt.routes.js";
 import ProductManager from "./dao/file/managers/ProductManager.js";
 import MailingRouter from "./router/mailing.routes.js";
 import LoggerRouter from "./router/logger.routes.js";
+import PaymentRouter from "./router/payment.routes.js";
 
 // Variables
 const app = express();
+
+// Cors
+app.use(cors());
 
 // Configuración Handlebars
 app.engine("handlebars", handlebars.engine());
@@ -47,6 +52,8 @@ app.use(
     saveUninitialized: true,
   })
 );
+
+// Cookie
 app.use(cookieParser());
 
 // Passport
@@ -62,6 +69,7 @@ app.use("/", MailingRouter);
 app.use("/", LoggerRouter);
 app.use("/api/products", ProductRouter);
 app.use("/api/carts", CartRouter);
+app.use("/api/payments", PaymentRouter);
 
 // MongoDB
 mongoose.connect(config.mongoURL, { dbName: config.mongoDBName })

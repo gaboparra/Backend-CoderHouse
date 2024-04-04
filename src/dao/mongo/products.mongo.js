@@ -14,6 +14,6 @@ export default class Product {
     return await ProductModel.updateOne({ _id: id }, { $set: product });
   };
   deleteProduct = async (id) => {
-    return await ProductModel.deleteOne(id);
+    return await ProductModel.deleteOne({ _id: id });
   };
 }

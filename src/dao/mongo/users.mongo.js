@@ -14,6 +14,6 @@ export default class User {
     return await UserModel.updateOne({ _id: id }, { $set: user });
   };
   deleteUser = async (id) => {
-    return await UserModel.deleteOne(id);
+    return await UserModel.deleteOne({ _id: id });
   };
 }

@@ -16,6 +16,6 @@ export default class UserRepository {
     return await this.dao.updateOne({ _id: id }, { $set: user });
   };
   deleteUser = async (id) => {
-    return await this.dao.deleteOne(id);
+    return await this.dao.deleteUser({ _id: id });
   };
 }
