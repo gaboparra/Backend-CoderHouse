@@ -37,7 +37,12 @@ CartsCtrl.addProductInCart = async (req, res) => {
       logger.error("Product not found");
       return res.status(404).json({ message: "Product not found" });
     }
+
     let cart = await CartModel.findById(req.params.cid);
+    if (!cart) {
+      cart = new CartModel();
+      await cart.save();
+    }
 
     const existingProduct = cart.products.find(
       (p) => p.product._id.toString() === req.params.pid

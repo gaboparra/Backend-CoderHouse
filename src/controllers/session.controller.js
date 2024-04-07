@@ -64,7 +64,6 @@ SessionCtrl.githubCallback = (req, res) => {
   if (!req.user) {
     return res.status(400).send("Invalid Github");
   }
-
   res.cookie("cookieJWT", req.user.token).redirect("/");
 };
 

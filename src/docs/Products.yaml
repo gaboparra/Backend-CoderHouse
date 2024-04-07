@@ -1,8 +1,3 @@
-# openapi: 3.0.1
-# info:
-#   title: Documentación de API - Productos
-#   description: API para administrar productos en una tienda en línea.
-#   version: 1.0.0
 paths:
   /api/products:
     get:

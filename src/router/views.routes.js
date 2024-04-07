@@ -31,7 +31,7 @@ ViewsRouter.get(
   ViewsCtrl.profileView
 );
 
-ViewsRouter.get('/checkout', ViewsCtrl.checkoutView)
+// ViewsRouter.get('/checkout', ViewsCtrl.checkoutView)
 
 ViewsRouter.get('/payment-success', ViewsCtrl.paymentSuccessView)
 

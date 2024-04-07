@@ -35,7 +35,7 @@ app.engine("handlebars", handlebars.engine());
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 
-// Middleware
+// Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/", express.static(__dirname + "/public"));
@@ -84,6 +84,7 @@ const server = app.listen(config.port, () =>
   logger.info(`Server is running on port ${config.port}`)
 );
 
+// Swagger
 const swaggerOptions = {
   definition: {
     openapi: "3.0.1",

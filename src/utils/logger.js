@@ -41,10 +41,8 @@ const productionLogger = winston.createLogger({
   ],
 });
 
-// Selección del logger basado en el entorno
 const logger = config.NODE_ENV === "production" ? productionLogger : developmentLogger;
 
-// Middleware para agregar el logger a cada solicitud
 export const addLogger = (req, res, next) => {
   req.logger = logger;
   req.logger.info(`[${req.method}] ${req.url} - ${new Date().toLocaleTimeString()}`);

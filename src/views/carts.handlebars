@@ -20,43 +20,49 @@
           </li>
           {{/if}}
         </ul>
-        {{!-- <form id="searchForm" class="d-flex" action="/" method="GET">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="query" />
-          <button id="searchButton" class="btn btn-outline-success" type="submit">Search</button>
-        </form> --}}
       </div>
     </div>
   </nav>
 </div>
 
 <div class="container">
+  <h2>Carrito de Compras</h2>
+  <hr>
   {{#if cart.products}}
-  <div class="row row-cols-1 row-cols-md-4 g-4">
+  <div class="row row-cols-1 row-cols-md-3 g-4">
     {{#each cart.products}}
-    <div class="col-md-3 mb-4">
+    <div class="col-md-2 mb-4">
       <div class="card h-100">
         <img src="{{this.product.imageUrl}}" class="card-img-top" alt="{{this.product.title}}">
         <div class="card-body">
           <h5 class="card-title">{{this.product.title}}</h5>
+          <p class="card-text">Cantidad: {{this.amount}}</p>
+          <p class="card-text">Precio Unitario: ${{this.product.price}}</p>
         </div>
       </div>
     </div>
     {{/each}}
   </div>
+  <div class="text-center mt-4">
+    <button id="clear-cart-button" class="btn btn-danger">Vaciar Carrito</button>
+  </div>
   {{else}}
-  <p class="no-cart-message text-muted">Carrito vacío</p>
+  <p class="no-cart-message text-muted">Tu carrito está vacío</p>
   {{/if}}
 </div>
 
+
 <!-- Formulario de pago -->
 <div id="payment-form" class="mt-5">
+  <h2>Checkout</h2>
+  <hr>
   <div id="card-element" class="form-control"></div>
   <div id="card-errors" role="alert" class="text-danger"></div>
   <button id="checkout-button" class="btn btn-primary mt-3">Finalizar Compra</button>
   <p id="purchase-message" class="mt-3"></p>
 </div>
 
-<!-- Scripts necesarios -->
+<!-- Scripts -->
 <script src="https://js.stripe.com/v3/"></script>
 <script>
   const stripe = Stripe('pk_test_51OxC2OKlCW7s1OuWEnZ1gQg9TvmIn2BlA3xBnpZMcinWDSnttJAViG1ZKQp5SadWVLRDMIOGxmn1kbWrQ3otooYq00isYyJ3JE');
@@ -65,7 +71,7 @@
 
   cardElement.mount('#card-element');
 
-  cardElement.on('change', function(event) {
+  cardElement.on('change', function (event) {
     const displayError = document.getElementById('card-errors');
     if (event.error) {
       displayError.textContent = event.error.message;
@@ -74,7 +80,7 @@
     }
   });
 
-  document.getElementById('checkout-button').addEventListener('click', async function(event) {
+  document.getElementById('checkout-button').addEventListener('click', async function (event) {
     event.preventDefault();
 
     const { paymentMethod, error } = await stripe.createPaymentMethod({
@@ -92,22 +98,64 @@
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ productIds: '{{#each cart.products}}{{this.product._id}},{{/each}}' }),
+          body: JSON.stringify({ productIds: [{{ #each cart.products }}"{{this.product._id}}", {{/ each}}]
+    }),
         });
-        if (response.ok) {
-          window.location.href = '/checkout';
-        } else {
-          document.getElementById('purchase-message').textContent = "Error al procesar la compra";
-        }
+  if (response.ok) {
+    window.location.href = '/payment-success';
+  } else {
+    document.getElementById('purchase-message').textContent = "Error al procesar la compra";
+  }
       } catch (error) {
-        console.error("Error al finalizar compra:", error);
-        document.getElementById('purchase-message').textContent = "Error al procesar la compra";
+    console.error("Error al finalizar compra:", error);
+    document.getElementById('purchase-message').textContent = "Error al procesar la compra";
+  }
+    }
+  });
+
+  async function getCartId() {
+    try {
+      const response = await fetch('/api/carts', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      if (response.ok) {
+        const data = await response.json();
+        const cartId = data.payload._id;
+        return cartId;
+      } else {
+        console.error("Error al obtener el carrito:", response.status);
+        return null;
       }
+    } catch (error) {
+      console.error("Error al obtener el carrito:", error);
+      return null;
+    }
+  }
+
+  document.getElementById('clear-cart-button').addEventListener('click', async function (event) {
+    event.preventDefault();
+
+    try {
+      const cartId = await getCartId();
+      if (!cartId) return;
+
+      const response = await fetch(`/api/carts/${cartId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        window.location.reload();
+      } else {
+        console.error("Error al vaciar el carrito:", response.status);
+      }
+    } catch (error) {
+      console.error("Error al vaciar el carrito:", error);
     }
   });
 </script>
-
-
-
-
-

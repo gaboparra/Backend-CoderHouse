@@ -30,7 +30,8 @@ p {
   font-family: "Arial", sans-serif;
   color: #333;
 }
-/* Estilos para el acordeón */
+
+/* Acordeón */
 .accordion .card {
   border: none;
   background-color: transparent;
@@ -57,7 +58,8 @@ p {
   border: 1px solid #dee2e6;
   border-radius: 0.25rem;
 }
-/* Estilos para la lista de detalles del producto */
+
+/* Detalles del producto */
 .list-group-item {
   background-color: transparent;
   border: none;
@@ -74,7 +76,7 @@ p {
   max-height: 100%;
 }
 
-/* Estilos Login */
+/* Login */
 .login-container {
   width: 400px;
   margin: 0 auto;
@@ -146,7 +148,7 @@ p {
   color: #0056b3;
 }
 
-/* Estilos Register */
+/* Register */
 .register-container {
   width: 400px;
   margin: 0 auto;
@@ -203,7 +205,7 @@ p {
   text-align: center;
 }
 
-/* Estilos Profile */
+/* Profile */
 .profile-container {
   width: 400px;
   margin: 0 auto;
@@ -247,4 +249,36 @@ p {
   background-color: #0056b3;
 }
 
-/* Estilos Cart */
+/* Payment */
+.success-container,
+.error-container {
+  width: 400px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.success-title,
+.error-title {
+  color: #007bff;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+  text-align: center;
+}
+.success-container p,
+.error-container p {
+  color: #333;
+  margin-bottom: 10px;
+}

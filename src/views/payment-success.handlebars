@@ -1,5 +1,32 @@
-<div class="container">
-  <h2>Pago Exitoso</h2>
+<div>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/"><img class="brand-logo" src="/img/brand5.png" alt="GeekyManga"></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/">Home</a>
+          </li>
+          {{#if user}}
+          <li class="nav-item">
+            <a class="nav-link" href="/profile">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/carts/{{user._id}}">Cart</a>
+          </li>
+          {{/if}}
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<div class="container success-container">
+  <h2 class="success-title">Pago Exitoso</h2>
   <p>¡Gracias por tu compra!</p>
   <p>Recibirás un correo electrónico con los detalles de tu pedido.</p>
 </div>

@@ -91,14 +91,6 @@ ViewsCtrl.profileView = (req, res) => {
   }
 };
 
-ViewsCtrl.checkoutView = (req, res) => {
-  return res.render("checkout", {
-    title: "Checkout",
-    style: "styles.css",
-    cart: req.session.cart,
-  });
-};
-
 ViewsCtrl.paymentSuccessView = (req, res) => {
   return res.render("payment-success", {
     title: "Payment Success",
