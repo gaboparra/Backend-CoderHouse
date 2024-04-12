@@ -80,8 +80,33 @@
     }
   });
 
+
+  async function getCart() {
+    try {
+      const response = await fetch('/api/carts', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      if (response.ok) {
+        const data = await response.json();
+        return data.payload;
+      } else {
+        console.error("Error al obtener el carrito:", response.status);
+        return null;
+      }
+    } catch (error) {
+      console.error("Error al obtener el carrito:", error);
+      return null;
+    }
+  }
+
   document.getElementById('checkout-button').addEventListener('click', async function (event) {
     event.preventDefault();
+
+    const cart = await getCart();
+    if (!cart) return;
 
     const { paymentMethod, error } = await stripe.createPaymentMethod({
       type: 'card',
@@ -98,50 +123,31 @@
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ productIds: [{{ #each cart.products }}"{{this.product._id}}", {{/ each}}]
-    }),
+          body: JSON.stringify({
+            productIds: cart.products && Array.isArray(cart.products) ? cart.products.map(product => product.product._id) : []
+          }),
         });
-  if (response.ok) {
-    window.location.href = '/payment-success';
-  } else {
-    document.getElementById('purchase-message').textContent = "Error al procesar la compra";
-  }
+        if (response.ok) {
+          window.location.href = '/payment-success';
+        } else {
+          window.location.href = '/payment-error';
+        }
       } catch (error) {
-    console.error("Error al finalizar compra:", error);
-    document.getElementById('purchase-message').textContent = "Error al procesar la compra";
-  }
+        console.error("Error al finalizar compra:", error);
+        document.getElementById('purchase-message').textContent = "Error al procesar la compra";
+        window.location.href = '/payment-error';
+      }
     }
   });
-
-  async function getCartId() {
-    try {
-      const response = await fetch('/api/carts', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      if (response.ok) {
-        const data = await response.json();
-        const cartId = data.payload._id;
-        return cartId;
-      } else {
-        console.error("Error al obtener el carrito:", response.status);
-        return null;
-      }
-    } catch (error) {
-      console.error("Error al obtener el carrito:", error);
-      return null;
-    }
-  }
 
   document.getElementById('clear-cart-button').addEventListener('click', async function (event) {
     event.preventDefault();
 
-    try {
-      const cartId = await getCartId();
-      if (!cartId) return;
+    const cart = await getCart();
+    if (!cart) return;
 
+    try {
+      const cartId = cart._id;
       const response = await fetch(`/api/carts/${cartId}`, {
         method: 'DELETE',
         headers: {
