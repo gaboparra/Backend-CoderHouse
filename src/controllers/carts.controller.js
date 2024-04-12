@@ -7,11 +7,7 @@ const CartsCtrl = {};
 
 CartsCtrl.getCarts = async (req, res) => {
   try {
-    let carts = await CartModel.find();
-    if (carts.length === 0) {
-      carts = [new CartModel()];
-      await CartModel.insertMany(carts);
-    }
+    const carts = await CartModel.findOne();
     res.json({ status: "success", payload: carts });
   } catch (error) {
     logger.error("Error in GET /carts:", error);
@@ -31,18 +27,6 @@ CartsCtrl.getCartById = async (req, res) => {
   } catch (error) {
     logger.error(`Error in GET /carts/${req.params.cid}:`, error);
     res.status(500).json({ status: "error", message: "Internal server error" });
-  }
-};
-
-CartsCtrl.createCart = async (req, res) => {
-  try {
-    const newCart = new CartModel();
-    await newCart.save();
-
-    res.status(201).json({ message: "Cart created successfully", cart: newCart });
-  } catch (error) {
-    logger.error("Error creating cart:", error);
-    res.status(500).json({ message: "Internal server error" });
   }
 };
 
